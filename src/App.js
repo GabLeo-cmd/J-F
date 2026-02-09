@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import backgroundImage from './assets/background.jpeg';
 import image1 from './assets/1.jpeg';
 import image2 from './assets/2.jpeg';
 import image3 from './assets/3.jpeg';
 import image4 from './assets/4.jpeg';
+import logoImage from './assets/logo.jpeg';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -42,21 +43,6 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
   const [chatResponse, setChatResponse] = useState(null);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-  // Array de imagens para o carrossel
-  const heroImages = [backgroundImage, image1, image2, image3, image4];
-
-  // Carrossel automático - muda de imagem a cada 10 segundos
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => 
-        prevIndex === heroImages.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 10000); // 10 segundos
-
-    return () => clearInterval(interval);
-  }, [heroImages.length]);
 
   // Localização das filiais
   const locations = [
@@ -493,18 +479,24 @@ function App() {
       </header>
 
       <section 
-        className="hero hero-carousel"
+        className="hero"
         style={{ 
-          backgroundImage: `linear-gradient(rgba(0, 51, 102, 0.7), rgba(0, 102, 204, 0.7)), url(${heroImages[currentImageIndex]})`,
+          backgroundImage: `linear-gradient(rgba(0, 51, 102, 0.7), rgba(0, 102, 204, 0.7)), url(${image2})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat'
+          backgroundRepeat: 'no-repeat',
+          backgroundAttachment: 'fixed'
         }}
       >
         <h1>{t('hero-title')}</h1>
         <p>{t('hero-subtitle')}</p>
         <div className="cta-buttons">
-          <a onClick={() => scrollToSection('servicos')} className="btn btn-secondary">
+          <a 
+            href="https://wa.me/5592992091329?text=Olá!%20Gostaria%20de%20conhecer%20os%20serviços%20da%20JF%20Organização%20Trading%20e%20possivelmente%20fechar%20um%20orçamento.%20Podem%20me%20passar%20mais%20informações?" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="btn btn-secondary"
+          >
             {t('btn-services')}
           </a>
         </div>
@@ -516,58 +508,74 @@ function App() {
           <p className="section-subtitle">{t('services-subtitle')}</p>
           
           <div className="services-grid">
-            <div className="service-card">
-              <div className="service-badge">{t('badge-specialty')}</div>
+            {/* Card 1: Transporte RodoFluvial - image1 (1.jpeg) */}
+            <div className="service-card" style={{
+              backgroundImage: `linear-gradient(rgba(0, 51, 102, 0.85), rgba(0, 102, 204, 0.85)), url(${image1})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }}>
               <div className="service-card-content">
-                <h3>{t('service1-title')}</h3>
-                <p>{t('service1-desc')}</p>
+                <h3 style={{ color: 'white' }}>{t('service1-title')}</h3>
+                <p style={{ color: 'rgba(255, 255, 255, 0.9)' }}>{t('service1-desc')}</p>
                 <ul className="service-features">
-                  <li>{t('service1-feature1')}</li>
-                  <li>{t('service1-feature2')}</li>
-                  <li>{t('service1-feature3')}</li>
-                  <li>{t('service1-feature4')}</li>
+                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service1-feature1')}</li>
+                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service1-feature2')}</li>
+                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service1-feature3')}</li>
+                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service1-feature4')}</li>
                 </ul>
               </div>
             </div>
 
-            <div className="service-card">
-              <div className="service-badge">{t('badge-performance')}</div>
+            {/* Card 2: Distribuição de Cargas - image4 (4.jpeg) */}
+            <div className="service-card" style={{
+              backgroundImage: `linear-gradient(rgba(0, 51, 102, 0.85), rgba(0, 102, 204, 0.85)), url(${image4})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }}>
               <div className="service-card-content">
-                <h3>{t('service2-title')}</h3>
-                <p>{t('service2-desc')}</p>
+                <h3 style={{ color: 'white' }}>{t('service2-title')}</h3>
+                <p style={{ color: 'rgba(255, 255, 255, 0.9)' }}>{t('service2-desc')}</p>
                 <ul className="service-features">
-                  <li>{t('service2-feature1')}</li>
-                  <li>{t('service2-feature2')}</li>
-                  <li>{t('service2-feature3')}</li>
-                  <li>{t('service2-feature4')}</li>
+                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service2-feature1')}</li>
+                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service2-feature2')}</li>
+                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service2-feature3')}</li>
+                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service2-feature4')}</li>
                 </ul>
               </div>
             </div>
 
-            <div className="service-card">
-              <div className="service-badge">{t('badge-infrastructure')}</div>
+            {/* Card 3: Armazenagem & Logística - image3 (3.jpeg) */}
+            <div className="service-card" style={{
+              backgroundImage: `linear-gradient(rgba(0, 51, 102, 0.85), rgba(0, 102, 204, 0.85)), url(${image3})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }}>
               <div className="service-card-content">
-                <h3>{t('service3-title')}</h3>
-                <p>{t('service3-desc')}</p>
+                <h3 style={{ color: 'white' }}>{t('service3-title')}</h3>
+                <p style={{ color: 'rgba(255, 255, 255, 0.9)' }}>{t('service3-desc')}</p>
                 <ul className="service-features">
-                  <li>{t('service3-feature1')}</li>
-                  <li>{t('service3-feature2')}</li>
-                  <li>{t('service3-feature3')}</li>
-                  <li>{t('service3-feature4')}</li>
+                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service3-feature1')}</li>
+                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service3-feature2')}</li>
+                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service3-feature3')}</li>
+                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service3-feature4')}</li>
                 </ul>
               </div>
             </div>
 
-            <div className="service-card">
-              <div className="service-badge">{t('badge-global')}</div>
+            {/* Card 4: Exportação & Comércio Exterior - backgroundImage (background.jpeg) */}
+            <div className="service-card" style={{
+              backgroundImage: `linear-gradient(rgba(0, 51, 102, 0.85), rgba(0, 102, 204, 0.85)), url(${backgroundImage})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }}>
               <div className="service-card-content">
-                <h3>{t('service4-title')}</h3>
-                <p>{t('service4-desc')}</p>
+                <h3 style={{ color: 'white' }}>{t('service4-title')}</h3>
+                <p style={{ color: 'rgba(255, 255, 255, 0.9)' }}>{t('service4-desc')}</p>
                 <ul className="service-features">
-                  <li>{t('service4-feature1')}</li>
-                  <li>{t('service4-feature2')}</li>
-                  <li>{t('service4-feature3')}</li>
-                  <li>{t('service4-feature4')}</li>
+                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service4-feature1')}</li>
+                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service4-feature2')}</li>
+                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service4-feature3')}</li>
+                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service4-feature4')}</li>
                 </ul>
               </div>
             </div>
@@ -738,7 +746,12 @@ function App() {
         </div>
       </section>
 
-      <footer>
+      <footer style={{
+        backgroundImage: `linear-gradient(rgba(26, 26, 26, 0.95), rgba(26, 26, 26, 0.95)), url(${logoImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}>
         <div className="footer-content">
           <div className="footer-section">
             <h3>JF Organização Trading</h3>

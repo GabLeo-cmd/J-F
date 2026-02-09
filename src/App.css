@@ -122,9 +122,8 @@ nav {
     transition: all 0.3s;
 }
 
-/* Hero Section */
+/* Hero Section - Background Fixo */
 .hero {
-    /* BACKGROUND REMOVIDO - agora está inline no App.js */
     color: var(--white);
     padding: 8rem 2rem 6rem;
     text-align: center;
@@ -142,6 +141,7 @@ nav {
     font-weight: 700;
     position: relative;
     z-index: 2;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
 }
 
 .hero p {
@@ -152,6 +152,7 @@ nav {
     margin-right: auto;
     position: relative;
     z-index: 2;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
 }
 
 .cta-buttons {
@@ -197,11 +198,6 @@ nav {
     color: var(--primary);
 }
 
-/* Animação suave do carrossel */
-.hero-carousel {
-    transition: background-image 2s ease-in-out;
-}
-
 /* Services Section */
 .services {
     padding: 5rem 2rem;
@@ -238,7 +234,6 @@ nav {
 }
 
 .service-card {
-    background: var(--white);
     border-radius: 15px;
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0,0,0,0.15);
@@ -256,13 +251,11 @@ nav {
 }
 
 .service-card h3 {
-    color: var(--primary);
     margin-bottom: 1rem;
     font-size: 1.6rem;
 }
 
 .service-card p {
-    color: #555;
     line-height: 1.8;
     margin-bottom: 1.5rem;
 }
@@ -274,7 +267,6 @@ nav {
 
 .service-features li {
     padding: 0.5rem 0;
-    color: #666;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -468,65 +460,6 @@ nav {
     font-size: 0.95rem;
     font-style: italic;
     margin-top: 0.5rem;
-}
-
-/* Card de Exportação Internacional */
-.location-card-enhanced.export-enhanced {
-    background: linear-gradient(135deg, #0096c7 0%, #0077b6 100%);
-    color: white;
-    padding: 2.5rem;
-    border-radius: 20px;
-    box-shadow: 0 20px 60px rgba(0, 150, 199, 0.3);
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-}
-
-.location-card-enhanced.export-enhanced::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-    pointer-events: none;
-}
-
-.export-stats {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin-top: 2rem;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-}
-
-.stat-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.stat-number {
-    font-size: 2.5rem;
-    font-weight: 800;
-    display: block;
-    margin-bottom: 0.3rem;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-}
-
-.stat-label {
-    font-size: 0.9rem;
-    opacity: 0.9;
-    text-align: center;
-    max-width: 120px;
-}
-
-.stat-divider {
-    width: 1px;
-    height: 50px;
-    background: rgba(255,255,255,0.3);
 }
 
 /* Container do Mapa Aprimorado */
@@ -843,18 +776,6 @@ footer {
     
     .location-details .city-name {
         font-size: 1.6rem;
-    }
-    
-    .stat-number {
-        font-size: 2rem;
-    }
-    
-    .export-stats {
-        gap: 1rem;
-    }
-    
-    .stat-divider {
-        display: none;
     }
 
     #chat-box {
