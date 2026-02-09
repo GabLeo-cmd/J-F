@@ -1,70 +1,49 @@
-# Getting Started with Create React App
+# Instruções para o Favicon
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 📍 Localização do arquivo file.jpeg
 
-## Available Scripts
+O arquivo `file.jpeg` deve estar localizado em:
 
-In the project directory, you can run:
+```
+seu-projeto/
+├── public/
+│   └── file.jpeg  ← COLOQUE O ARQUIVO AQUI
+├── src/
+│   ├── assets/
+│   │   ├── 1.jpeg
+│   │   ├── 2.jpeg
+│   │   ├── 3.jpeg
+│   │   ├── 4.jpeg
+│   │   └── background.jpeg
+│   ├── App.js
+│   ├── App.css
+│   └── index.js
+└── package.json
+```
 
-### `npm start`
+## ⚠️ IMPORTANTE
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+**NÃO** coloque o `file.jpeg` na pasta `src/assets/`.
+Ele deve estar na pasta **`public/`** na raiz do projeto.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## ✅ Passos para configurar:
 
-### `npm test`
+1. Copie o arquivo `file.jpeg` da pasta `src/assets/`
+2. Cole na pasta `public/`
+3. Limpe o cache do navegador (Ctrl + Shift + Delete)
+4. Reinicie o servidor de desenvolvimento
+5. O favicon aparecerá na aba do navegador
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🔧 Se o ícone do React ainda aparecer:
 
-### `npm run build`
+1. Apague o arquivo `favicon.ico` da pasta `public/`
+2. Limpe o cache do navegador completamente
+3. Feche e abra novamente o navegador
+4. O novo favicon deve aparecer
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 📋 Arquivos atualizados:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- ✅ `index.html` - Configurado para usar `file.jpeg` como favicon
+- ✅ `App.js` - Emojis de casa removidos da seção de localidades
+- ✅ `App.css` - Estilos dos ícones removidos
+- ✅ Todas as traduções implementadas (PT, EN, ES)

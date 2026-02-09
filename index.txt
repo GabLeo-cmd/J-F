@@ -336,10 +336,8 @@
         }
 
         .about-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
+            max-width: 900px;
+            margin: 0 auto;
         }
 
         .about-text h2 {
@@ -352,31 +350,6 @@
             margin-bottom: 1rem;
             font-size: 1.1rem;
             line-height: 1.8;
-        }
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .stat-item {
-            text-align: center;
-            padding: 1.5rem;
-            background: var(--light);
-            border-radius: 10px;
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: var(--accent);
-        }
-
-        .stat-label {
-            color: var(--primary);
-            font-weight: 600;
         }
 
         /* Contact Section */
@@ -532,14 +505,6 @@
 
             .hero p {
                 font-size: 1rem;
-            }
-
-            .about-content {
-                grid-template-columns: 1fr;
-            }
-
-            .stats {
-                grid-template-columns: 1fr;
             }
 
             .services-grid {
@@ -698,24 +663,6 @@
                     <p data-translate="about-p1">Com anos de experiência no mercado de logística e exportação, a JF Organização Trading se consolidou como referência em soluções integradas de transporte rodofluvial e comércio exterior de commodities.</p>
                     <p data-translate="about-p2">Nossa expertise combina o melhor do transporte rodoviário e fluvial, especialmente na região amazônica, com operações complexas de exportação, sempre com foco na excelência operacional e satisfação do cliente.</p>
                     <p data-translate="about-p3">Atuamos com compromisso, transparência e eficiência, oferecendo soluções personalizadas que impulsionam o crescimento dos nossos parceiros comerciais.</p>
-                </div>
-                <div class="stats">
-                    <div class="stat-item">
-                        <div class="stat-number">15+</div>
-                        <div class="stat-label" data-translate="stat-experience">Anos de Experiência</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">500+</div>
-                        <div class="stat-label" data-translate="stat-clients">Clientes Ativos</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">50+</div>
-                        <div class="stat-label" data-translate="stat-countries">Países Atendidos</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">99%</div>
-                        <div class="stat-label" data-translate="stat-satisfaction">Satisfação</div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -882,10 +829,6 @@
                 'about-p1': 'Com anos de experiência no mercado de logística e exportação, a JF Organização Trading se consolidou como referência em soluções integradas de transporte rodofluvial e comércio exterior de commodities.',
                 'about-p2': 'Nossa expertise combina o melhor do transporte rodoviário e fluvial, especialmente na região amazônica, com operações complexas de exportação, sempre com foco na excelência operacional e satisfação do cliente.',
                 'about-p3': 'Atuamos com compromisso, transparência e eficiência, oferecendo soluções personalizadas que impulsionam o crescimento dos nossos parceiros comerciais.',
-                'stat-experience': 'Anos de Experiência',
-                'stat-clients': 'Clientes Ativos',
-                'stat-countries': 'Países Atendidos',
-                'stat-satisfaction': 'Satisfação',
                 'contact-title': 'Entre em Contato',
                 'contact-form-title': 'Solicite seu Orçamento',
                 'contact-form-subtitle': 'Entre em contato conosco e receba atendimento personalizado para suas necessidades de exportação.',
@@ -960,10 +903,6 @@
                 'about-p1': 'With years of experience in the logistics and export market, JF Organização Trading has established itself as a reference in integrated river-road transport solutions and commodity foreign trade.',
                 'about-p2': 'Our expertise combines the best of road and river transport, especially in the Amazon region, with complex export operations, always focusing on operational excellence and customer satisfaction.',
                 'about-p3': 'We operate with commitment, transparency and efficiency, offering customized solutions that drive the growth of our business partners.',
-                'stat-experience': 'Years of Experience',
-                'stat-clients': 'Active Clients',
-                'stat-countries': 'Countries Served',
-                'stat-satisfaction': 'Satisfaction',
                 'contact-title': 'Get In Touch',
                 'contact-form-title': 'Request Your Quote',
                 'contact-form-subtitle': 'Contact us and receive personalized service for your export needs.',
@@ -1038,10 +977,6 @@
                 'about-p1': 'Con años de experiencia en el mercado de logística y exportación, JF Organização Trading se ha consolidado como referencia en soluciones integradas de transporte rodofluvial y comercio exterior de commodities.',
                 'about-p2': 'Nuestra experiencia combina lo mejor del transporte por carretera y fluvial, especialmente en la región amazónica, con operaciones complejas de exportación, siempre con foco en la excelencia operacional y satisfacción del cliente.',
                 'about-p3': 'Actuamos con compromiso, transparencia y eficiencia, ofreciendo soluciones personalizadas que impulsan el crecimiento de nuestros socios comerciales.',
-                'stat-experience': 'Años de Experiencia',
-                'stat-clients': 'Clientes Activos',
-                'stat-countries': 'Países Atendidos',
-                'stat-satisfaction': 'Satisfacción',
                 'contact-title': 'Póngase en Contacto',
                 'contact-form-title': 'Solicite su Presupuesto',
                 'contact-form-subtitle': 'Póngase en contacto con nosotros y reciba atención personalizada para sus necesidades de exportación.',
