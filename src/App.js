@@ -450,7 +450,16 @@ function App() {
           </div>
           <ul className={`nav-links ${menuOpen ? 'active' : ''}`}>
             <li><a onClick={scrollToTop} className="active">{t('nav-home')}</a></li>
-            <li><a onClick={() => scrollToSection('servicos')}>{t('nav-services')}</a></li>
+            <li>
+              <a 
+                href="https://wa.me/5592992091329?text=Olá!%20Gostaria%20de%20conhecer%20os%20serviços%20da%20JF%20Organização%20Trading%20e%20possivelmente%20fechar%20um%20orçamento.%20Podem%20me%20passar%20mais%20informações?" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                onClick={() => setMenuOpen(false)}
+              >
+                {t('nav-services')}
+              </a>
+            </li>
             <li><a onClick={() => scrollToSection('abrangencia')}>{t('nav-coverage')}</a></li>
             <li><a onClick={() => scrollToSection('sobre')}>{t('nav-about')}</a></li>
             <li><a onClick={() => scrollToSection('contato')}>{t('nav-contact')}</a></li>
@@ -760,10 +769,42 @@ function App() {
           <div className="footer-section">
             <h3>{t('footer-services-title')}</h3>
             <ul>
-              <li><a onClick={() => scrollToSection('servicos')}>{t('footer-service1')}</a></li>
-              <li><a onClick={() => scrollToSection('servicos')}>{t('footer-service2')}</a></li>
-              <li><a onClick={() => scrollToSection('servicos')}>{t('footer-service3')}</a></li>
-              <li><a onClick={() => scrollToSection('servicos')}>{t('footer-service4')}</a></li>
+              <li>
+                <a 
+                  href="https://wa.me/5592992091329?text=Olá!%20Gostaria%20de%20conhecer%20os%20serviços%20da%20JF%20Organização%20Trading%20e%20possivelmente%20fechar%20um%20orçamento.%20Podem%20me%20passar%20mais%20informações?" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                >
+                  {t('footer-service1')}
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="https://wa.me/5592992091329?text=Olá!%20Gostaria%20de%20conhecer%20os%20serviços%20da%20JF%20Organização%20Trading%20e%20possivelmente%20fechar%20um%20orçamento.%20Podem%20me%20passar%20mais%20informações?" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                >
+                  {t('footer-service2')}
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="https://wa.me/5592992091329?text=Olá!%20Gostaria%20de%20conhecer%20os%20serviços%20da%20JF%20Organização%20Trading%20e%20possivelmente%20fechar%20um%20orçamento.%20Podem%20me%20passar%20mais%20informações?" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                >
+                  {t('footer-service3')}
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="https://wa.me/5592992091329?text=Olá!%20Gostaria%20de%20conhecer%20os%20serviços%20da%20JF%20Organização%20Trading%20e%20possivelmente%20fechar%20um%20orçamento.%20Podem%20me%20passar%20mais%20informações?" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                >
+                  {t('footer-service4')}
+                </a>
+              </li>
             </ul>
           </div>
           <div className="footer-section">
