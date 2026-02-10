@@ -122,87 +122,6 @@ nav {
     transition: all 0.3s;
 }
 
-/* Modal Styles */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10000;
-    padding: 1rem;
-}
-
-.modal-content {
-    background: white;
-    padding: 2rem;
-    border-radius: 15px;
-    max-width: 600px;
-    width: 100%;
-    max-height: 90vh;
-    overflow-y: auto;
-    position: relative;
-    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3);
-}
-
-.modal-content.employee-panel {
-    max-width: 1200px;
-}
-
-.modal-close {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background: none;
-    border: none;
-    font-size: 2rem;
-    cursor: pointer;
-    color: #666;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: all 0.3s;
-}
-
-.modal-close:hover {
-    background: #f0f0f0;
-    color: var(--accent);
-}
-
-.tracking-input {
-    width: 100%;
-    padding: 1rem;
-    border: 2px solid #e5e7eb;
-    border-radius: 8px;
-    font-size: 1rem;
-    transition: all 0.3s;
-}
-
-.tracking-input:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1);
-}
-
-.alert {
-    padding: 1rem;
-    border-radius: 8px;
-    margin-top: 1rem;
-}
-
-.alert-warning {
-    background: #fef3c7;
-    color: #92400e;
-    border-left: 4px solid #f59e0b;
-}
-
 /* Hero Section - Background Fixo */
 .hero {
     color: var(--white);
@@ -360,7 +279,24 @@ nav {
     font-size: 1.2rem;
 }
 
-/* Coverage Section */
+.service-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: var(--accent);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    z-index: 10;
+}
+
+/* ========================================
+   SEÇÃO DE LOCALIDADES - APRIMORADA
+   ======================================== */
+
+/* Container principal da seção de localidades */
 .coverage-section {
     padding: 5rem 0;
     background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
@@ -391,12 +327,14 @@ nav {
     padding: 0 2rem;
 }
 
+/* Grid de informações de localidades melhorado */
 .coverage-info-enhanced {
     display: grid;
     grid-template-columns: 1fr;
     gap: 2rem;
 }
 
+/* Card da Matriz - Destaque especial */
 .location-card-enhanced.matriz-enhanced {
     background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
     color: white;
@@ -465,6 +403,7 @@ nav {
     margin: 0;
 }
 
+/* Grid de Filiais */
 .branches-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -523,6 +462,7 @@ nav {
     margin-top: 0.5rem;
 }
 
+/* Container do Mapa Aprimorado */
 .map-container-enhanced {
     position: relative;
     border-radius: 15px;
@@ -543,6 +483,7 @@ nav {
     z-index: 1000;
 }
 
+/* Customização do popup do Leaflet */
 .leaflet-popup-content-wrapper {
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
@@ -552,6 +493,7 @@ nav {
     margin: 1rem;
 }
 
+/* Animações adicionais */
 @keyframes slideInUp {
     from {
         opacity: 0;
@@ -818,6 +760,7 @@ footer {
         grid-template-columns: 1fr;
     }
 
+    /* Localidades - Mobile */
     .coverage-section {
         padding: 3rem 0;
     }
@@ -848,15 +791,6 @@ footer {
     #chat-button span {
         display: none;
     }
-
-    .modal-content {
-        padding: 1.5rem;
-        max-height: 85vh;
-    }
-
-    .modal-content.employee-panel {
-        padding: 1rem;
-    }
 }
 
 @media (max-width: 480px) {
@@ -876,9 +810,5 @@ footer {
     .btn {
         padding: 0.8rem 1.5rem;
         font-size: 1rem;
-    }
-
-    .modal-content {
-        padding: 1rem;
     }
 }

@@ -43,6 +43,71 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
   const [chatResponse, setChatResponse] = useState(null);
+  
+  // Estados para o sistema de rastreamento
+  const [showTracking, setShowTracking] = useState(false);
+  const [trackingDocument, setTrackingDocument] = useState('');
+  const [trackingResult, setTrackingResult] = useState(null);
+  
+  // Estados para o sistema de login de funcionários
+  const [showEmployeeLogin, setShowEmployeeLogin] = useState(false);
+  const [isEmployeeLoggedIn, setIsEmployeeLoggedIn] = useState(false);
+  const [employeeUsername, setEmployeeUsername] = useState('');
+  const [employeePassword, setEmployeePassword] = useState('');
+  const [showEmployeePanel, setShowEmployeePanel] = useState(false);
+  
+  // Estados para gerenciamento de entregas (funcionários)
+  const [deliveries, setDeliveries] = useState([
+    {
+      id: 1,
+      document: '12345678900',
+      customerName: 'João Silva',
+      product: 'Carga Geral - 500kg',
+      origin: 'Manaus/AM',
+      destination: 'São Paulo/SP',
+      status: 'Em Trânsito',
+      currentLocation: 'Goiânia/GO',
+      estimatedDelivery: '15/02/2026',
+      lastUpdate: '10/02/2026 14:30'
+    },
+    {
+      id: 2,
+      document: '98765432100',
+      customerName: 'Maria Santos',
+      product: 'Commodities - 2 toneladas',
+      origin: 'Manaus/AM',
+      destination: 'Boa Vista/RR',
+      status: 'Entregue',
+      currentLocation: 'Boa Vista/RR',
+      estimatedDelivery: '08/02/2026',
+      lastUpdate: '08/02/2026 16:45'
+    },
+    {
+      id: 3,
+      document: '12345678000190',
+      customerName: 'Empresa ABC Ltda',
+      product: 'Equipamentos - 1.5 toneladas',
+      origin: 'São Luís/MA',
+      destination: 'Cuiabá/MT',
+      status: 'Aguardando Coleta',
+      currentLocation: 'São Luís/MA',
+      estimatedDelivery: '18/02/2026',
+      lastUpdate: '10/02/2026 09:15'
+    }
+  ]);
+  
+  const [newDelivery, setNewDelivery] = useState({
+    document: '',
+    customerName: '',
+    product: '',
+    origin: '',
+    destination: '',
+    status: 'Aguardando Coleta',
+    currentLocation: '',
+    estimatedDelivery: ''
+  });
+  
+  const [editingDelivery, setEditingDelivery] = useState(null);
 
   // Localização das filiais
   const locations = [
@@ -57,12 +122,25 @@ function App() {
     pt: {
       'nav-home': 'Início',
       'nav-services': 'Serviços',
+      'nav-tracking': 'Rastrear Entrega',
+      'nav-employee': 'Área do Funcionário',
       'nav-coverage': 'Localidade',
       'nav-about': 'Sobre',
       'nav-contact': 'Contato',
       'hero-title': 'Transporte, Logística & Exportação',
       'hero-subtitle': 'Soluções Completas Em Transporte RodoFluvial, Armazenagem E Operações De Exportação Para Sua Empresa',
       'btn-services': 'Nossos Serviços',
+      'tracking-title': 'Rastrear Minha Entrega',
+      'tracking-subtitle': 'Digite seu CPF ou CNPJ para acompanhar sua entrega',
+      'tracking-placeholder': 'Digite seu CPF ou CNPJ',
+      'tracking-button': 'Buscar Entrega',
+      'tracking-not-found': 'Nenhuma entrega encontrada para este documento.',
+      'employee-login-title': 'Login de Funcionário',
+      'employee-username': 'Usuário',
+      'employee-password': 'Senha',
+      'employee-login-button': 'Entrar',
+      'employee-logout-button': 'Sair',
+      'employee-panel-title': 'Painel de Gerenciamento de Entregas',
       'services-title': 'Nossas Especialidades',
       'services-subtitle': 'Oferecemos soluções completas e integradas para atender todas as necessidades logísticas da sua empresa',
       'coverage-title': 'Nossas Localidades',
@@ -89,10 +167,6 @@ function App() {
       'whatsapp-cta-title': 'Precisa de um Orçamento Rápido?',
       'whatsapp-cta-subtitle': 'Fale diretamente com nossa equipe comercial pelo WhatsApp!',
       'whatsapp-btn-text': 'Falar no WhatsApp Agora',
-      'badge-specialty': 'Especialidade',
-      'badge-performance': 'Alta Performance',
-      'badge-infrastructure': 'Infraestrutura',
-      'badge-global': 'Global',
       'service1-title': 'Transporte RodoFluvial',
       'service1-desc': 'Combinamos o melhor do transporte rodoviário e fluvial para oferecer soluções logísticas completas e econômicas, especialmente na região amazônica.',
       'service1-feature1': 'Integração rodoviária e fluvial',
@@ -153,198 +227,117 @@ function App() {
     en: {
       'nav-home': 'Home',
       'nav-services': 'Services',
+      'nav-tracking': 'Track Delivery',
+      'nav-employee': 'Employee Area',
       'nav-coverage': 'Locations',
       'nav-about': 'About',
       'nav-contact': 'Contact',
       'hero-title': 'Transport, Logistics & Export',
       'hero-subtitle': 'Complete Solutions In River-Road Transport, Warehousing And Export Operations For Your Company',
       'btn-services': 'Our Services',
+      'tracking-title': 'Track My Delivery',
+      'tracking-subtitle': 'Enter your CPF or CNPJ to track your delivery',
+      'tracking-placeholder': 'Enter your CPF or CNPJ',
+      'tracking-button': 'Search Delivery',
+      'tracking-not-found': 'No delivery found for this document.',
+      'employee-login-title': 'Employee Login',
+      'employee-username': 'Username',
+      'employee-password': 'Password',
+      'employee-login-button': 'Login',
+      'employee-logout-button': 'Logout',
+      'employee-panel-title': 'Delivery Management Panel',
       'services-title': 'Our Specialties',
-      'services-subtitle': 'We offer complete and integrated solutions to meet all your company\'s logistics needs',
-      'coverage-title': 'Our Locations',
-      'coverage-subtitle': 'Strategic positioning at key points across Brazilian territory to serve you better',
-      'coverage-matriz': 'Headquarters',
-      'coverage-filial': 'Branch',
-      'location-manaus': 'Manaus',
-      'location-amazonas': 'Amazonas',
-      'location-desc1': 'Strategic operations center',
-      'location-desc2': 'Logistics hub of the North region',
-      'location-desc3': 'River-road distribution',
-      'location-boavista': 'Boa Vista',
-      'location-roraima': 'Roraima',
-      'branch-specialty1': 'International border',
-      'location-saoluis': 'São Luís',
-      'location-maranhao': 'Maranhão',
-      'branch-specialty2': 'Port and export',
-      'location-cuiaba': 'Cuiabá',
-      'location-matogrosso': 'Mato Grosso',
-      'branch-specialty3': 'Strategic Midwest',
-      'location-goiania': 'Goiânia',
-      'location-goias': 'Goiás',
-      'branch-specialty4': 'National connection',
-      'whatsapp-cta-title': 'Need a Quick Quote?',
-      'whatsapp-cta-subtitle': 'Talk directly with our commercial team via WhatsApp!',
-      'whatsapp-btn-text': 'Chat on WhatsApp Now',
-      'badge-specialty': 'Specialty',
-      'badge-performance': 'High Performance',
-      'badge-infrastructure': 'Infrastructure',
-      'badge-global': 'Global',
-      'service1-title': 'River-Road Transport',
-      'service1-desc': 'We combine the best of road and river transport to offer complete and economical logistics solutions, especially in the Amazon region.',
-      'service1-feature1': 'Road and river integration',
-      'service1-feature2': 'Optimized routes through the Amazon',
-      'service1-feature3': 'Real-time tracking',
-      'service1-feature4': 'High volume capacity',
-      'service2-title': 'Cargo Distribution',
-      'service2-desc': 'Complete management of your goods distribution with efficiency, safety and punctuality throughout the national territory.',
-      'service2-feature1': 'Last mile management',
-      'service2-feature2': 'Modern and diversified fleet',
-      'service2-feature3': 'Guaranteed on-time delivery',
-      'service2-feature4': 'Complete cargo insurance',
-      'service3-title': 'Warehousing & Logistics',
-      'service3-desc': 'Strategic distribution centers with cutting-edge technology, temperature control and 24-hour security for your products.',
-      'service3-feature1': 'Climate-controlled warehouses',
-      'service3-feature2': 'Integrated WMS system',
-      'service3-feature3': '24/7 security and monitoring',
-      'service3-feature4': 'Smart inventory management',
-      'service4-title': 'Export & Foreign Trade',
-      'service4-desc': 'Complete advisory in international trade, handling all documentation and processes to take your products to the world.',
-      'service4-feature1': 'In-house customs broker',
-      'service4-feature2': 'Complete documentation management',
-      'service4-feature3': 'Partners in 50+ countries',
-      'service4-feature4': 'Foreign trade consulting',
-      'about-title': 'About JF Organização Trading',
-      'about-p1': 'With years of experience in the logistics and export market, JF Organização Trading has established itself as a reference in integrated river-road transport solutions and commodity foreign trade.',
-      'about-p2': 'Our expertise combines the best of road and river transport, especially in the Amazon region, with complex export operations, always focusing on operational excellence and customer satisfaction.',
-      'about-p3': 'We operate with commitment, transparency and efficiency, offering customized solutions that drive the growth of our business partners.',
-      'contact-title': 'Get In Touch',
-      'contact-form-title': 'Request Your Quote',
-      'contact-form-subtitle': 'Contact us and receive personalized service for your export needs.',
-      'whatsapp-commercial': 'WhatsApp - Commercial',
-      'email-export-button': 'Email - Export Commercial',
-      'contact-info-label': '📧 Export Commercial Contact:',
-      'commercial-label': 'Commercial',
-      'footer-desc': 'Excellence in river-road logistics and commodity exports since 2009.',
-      'footer-services-title': 'Our Specialties',
-      'footer-service1': 'River-Road Transport',
-      'footer-service2': 'Cargo Distribution',
-      'footer-service3': 'Warehousing & Logistics',
-      'footer-service4': 'Export & Trade',
-      'footer-company-title': 'Company',
-      'footer-about': 'About Us',
-      'footer-contact': 'Contact',
-      'footer-careers': 'Work With Us',
-      'footer-connect-title': 'Connect',
-      'footer-copyright': '© 2026 JF Organização Trading. All rights reserved.',
-      'chat-help': 'Need Help?',
-      'chat-title': 'How can we help?',
-      'chat-intro': 'Select an option below:',
-      'chat-option-services': 'Learn about our services',
-      'chat-option-quote': 'Request a quote',
-      'chat-option-export': 'Export information',
-      'chat-option-other': 'Other questions',
-      'chat-whatsapp-btn': 'Continue on WhatsApp',
-      'chat-back-btn': 'Back'
+      'services-subtitle': 'We offer complete and integrated solutions to meet all your company\'s logistics needs'
     },
     es: {
       'nav-home': 'Inicio',
       'nav-services': 'Servicios',
+      'nav-tracking': 'Rastrear Entrega',
+      'nav-employee': 'Área del Empleado',
       'nav-coverage': 'Localidades',
       'nav-about': 'Sobre',
       'nav-contact': 'Contacto',
       'hero-title': 'Transporte, Logística y Exportación',
       'hero-subtitle': 'Soluciones Completas En Transporte RodoFluvial, Almacenamiento Y Operaciones De Exportación Para Su Empresa',
       'btn-services': 'Nuestros Servicios',
+      'tracking-title': 'Rastrear Mi Entrega',
+      'tracking-subtitle': 'Ingrese su CPF o CNPJ para rastrear su entrega',
+      'tracking-placeholder': 'Ingrese su CPF o CNPJ',
+      'tracking-button': 'Buscar Entrega',
+      'tracking-not-found': 'No se encontró ninguna entrega para este documento.',
+      'employee-login-title': 'Inicio de Sesión de Empleado',
+      'employee-username': 'Usuario',
+      'employee-password': 'Contraseña',
+      'employee-login-button': 'Entrar',
+      'employee-logout-button': 'Salir',
+      'employee-panel-title': 'Panel de Gestión de Entregas',
       'services-title': 'Nuestras Especialidades',
-      'services-subtitle': 'Ofrecemos soluciones completas e integradas para atender todas las necesidades logísticas de su empresa',
-      'coverage-title': 'Nuestras Localidades',
-      'coverage-subtitle': 'Posicionamiento estratégico en puntos clave del territorio brasileño para atenderle mejor',
-      'coverage-matriz': 'Sede',
-      'coverage-filial': 'Sucursal',
-      'location-manaus': 'Manaos',
-      'location-amazonas': 'Amazonas',
-      'location-desc1': 'Centro estratégico de operaciones',
-      'location-desc2': 'Hub logístico de la región Norte',
-      'location-desc3': 'Distribución rodofluvial',
-      'location-boavista': 'Boa Vista',
-      'location-roraima': 'Roraima',
-      'branch-specialty1': 'Frontera internacional',
-      'location-saoluis': 'São Luís',
-      'location-maranhao': 'Maranhão',
-      'branch-specialty2': 'Puerto y exportación',
-      'location-cuiaba': 'Cuiabá',
-      'location-matogrosso': 'Mato Grosso',
-      'branch-specialty3': 'Centro-Oeste estratégico',
-      'location-goiania': 'Goiânia',
-      'location-goias': 'Goiás',
-      'branch-specialty4': 'Conexión nacional',
-      'whatsapp-cta-title': '¿Necesita un Presupuesto Rápido?',
-      'whatsapp-cta-subtitle': '¡Hable directamente con nuestro equipo comercial por WhatsApp!',
-      'whatsapp-btn-text': 'Hablar por WhatsApp Ahora',
-      'badge-specialty': 'Especialidad',
-      'badge-performance': 'Alto Rendimiento',
-      'badge-infrastructure': 'Infraestructura',
-      'badge-global': 'Global',
-      'service1-title': 'Transporte RodoFluvial',
-      'service1-desc': 'Combinamos lo mejor del transporte por carretera y fluvial para ofrecer soluciones logísticas completas y económicas, especialmente en la región amazónica.',
-      'service1-feature1': 'Integración carretera y fluvial',
-      'service1-feature2': 'Rutas optimizadas por el Amazonas',
-      'service1-feature3': 'Rastreo en tiempo real',
-      'service1-feature4': 'Capacidad para grandes volúmenes',
-      'service2-title': 'Distribución de Cargas',
-      'service2-desc': 'Gestión completa de la distribución de sus mercancías con eficiencia, seguridad y puntualidad en todo el territorio nacional.',
-      'service2-feature1': 'Gestión de última milla',
-      'service2-feature2': 'Flota moderna y diversificada',
-      'service2-feature3': 'Entrega puntual garantizada',
-      'service2-feature4': 'Seguro completo de cargas',
-      'service3-title': 'Almacenamiento y Logística',
-      'service3-desc': 'Centros de distribución estratégicos con tecnología de punta, control de temperatura y seguridad 24 horas para sus productos.',
-      'service3-feature1': 'Almacenes climatizados',
-      'service3-feature2': 'Sistema WMS integrado',
-      'service3-feature3': 'Seguridad y monitoreo 24/7',
-      'service3-feature4': 'Gestión inteligente de inventario',
-      'service4-title': 'Exportación y Comercio Exterior',
-      'service4-desc': 'Asesoría completa en comercio internacional, cuidando toda la documentación y procesos para llevar sus productos al mundo.',
-      'service4-feature1': 'Agente aduanal propio',
-      'service4-feature2': 'Gestión de documentación completa',
-      'service4-feature3': 'Socios en más de 50 países',
-      'service4-feature4': 'Consultoría en comercio exterior',
-      'about-title': 'Sobre JF Organização Trading',
-      'about-p1': 'Con años de experiencia en el mercado de logística y exportación, JF Organização Trading se ha consolidado como referencia en soluciones integradas de transporte rodofluvial y comercio exterior de commodities.',
-      'about-p2': 'Nuestra experiencia combina lo mejor del transporte por carretera y fluvial, especialmente en la región amazónica, con operaciones complejas de exportación, siempre con foco en la excelencia operacional y satisfacción del cliente.',
-      'about-p3': 'Actuamos con compromiso, transparencia y eficiencia, ofreciendo soluciones personalizadas que impulsan el crecimiento de nuestros socios comerciales.',
-      'contact-title': 'Póngase en Contacto',
-      'contact-form-title': 'Solicite su Presupuesto',
-      'contact-form-subtitle': 'Póngase en contacto con nosotros y reciba atención personalizada para sus necesidades de exportación.',
-      'whatsapp-commercial': 'WhatsApp - Comercial',
-      'email-export-button': 'Email - Comercial Exportación',
-      'contact-info-label': '📧 Contacto Comercial Exportación:',
-      'commercial-label': 'Comercial',
-      'footer-desc': 'Excelencia en logística rodofluvial y exportación de commodities desde 2009.',
-      'footer-services-title': 'Nuestras Especialidades',
-      'footer-service1': 'Transporte RodoFluvial',
-      'footer-service2': 'Distribución de Cargas',
-      'footer-service3': 'Almacenamiento y Logística',
-      'footer-service4': 'Exportación y Comercio',
-      'footer-company-title': 'Empresa',
-      'footer-about': 'Sobre Nosotros',
-      'footer-contact': 'Contacto',
-      'footer-careers': 'Trabaje con Nosotros',
-      'footer-connect-title': 'Conéctese',
-      'footer-copyright': '© 2026 JF Organização Trading. Todos los derechos reservados.',
-      'chat-help': '¿Necesita Ayuda?',
-      'chat-title': '¿Cómo podemos ayudarle?',
-      'chat-intro': 'Seleccione una opción abajo:',
-      'chat-option-services': 'Conocer nuestros servicios',
-      'chat-option-quote': 'Solicitar presupuesto',
-      'chat-option-export': 'Información sobre exportación',
-      'chat-option-other': 'Otras dudas',
-      'chat-whatsapp-btn': 'Continuar en WhatsApp',
-      'chat-back-btn': 'Volver'
+      'services-subtitle': 'Ofrecemos soluciones completas e integradas para atender todas las necesidades logísticas de su empresa'
     }
   };
 
   const t = (key) => translations[currentLang][key] || key;
+
+  // Função de rastreamento
+  const handleTracking = (e) => {
+    e.preventDefault();
+    const cleanDocument = trackingDocument.replace(/\D/g, '');
+    const found = deliveries.find(d => d.document === cleanDocument);
+    setTrackingResult(found || 'not-found');
+  };
+
+  // Função de login de funcionário
+  const handleEmployeeLogin = (e) => {
+    e.preventDefault();
+    // Credenciais simples (em produção, usar autenticação real)
+    if (employeeUsername === 'admin' && employeePassword === 'jf2026') {
+      setIsEmployeeLoggedIn(true);
+      setShowEmployeeLogin(false);
+      setShowEmployeePanel(true);
+      setEmployeeUsername('');
+      setEmployeePassword('');
+    } else {
+      alert('Usuário ou senha incorretos!');
+    }
+  };
+
+  // Função para adicionar nova entrega
+  const handleAddDelivery = (e) => {
+    e.preventDefault();
+    const newId = deliveries.length > 0 ? Math.max(...deliveries.map(d => d.id)) + 1 : 1;
+    const now = new Date().toLocaleString('pt-BR');
+    setDeliveries([...deliveries, {
+      ...newDelivery,
+      id: newId,
+      lastUpdate: now
+    }]);
+    setNewDelivery({
+      document: '',
+      customerName: '',
+      product: '',
+      origin: '',
+      destination: '',
+      status: 'Aguardando Coleta',
+      currentLocation: '',
+      estimatedDelivery: ''
+    });
+  };
+
+  // Função para atualizar entrega
+  const handleUpdateDelivery = (id) => {
+    const now = new Date().toLocaleString('pt-BR');
+    setDeliveries(deliveries.map(d => 
+      d.id === id ? { ...editingDelivery, lastUpdate: now } : d
+    ));
+    setEditingDelivery(null);
+  };
+
+  // Função para deletar entrega
+  const handleDeleteDelivery = (id) => {
+    if (window.confirm('Tem certeza que deseja excluir esta entrega?')) {
+      setDeliveries(deliveries.filter(d => d.id !== id));
+    }
+  };
 
   const scrollToSection = (sectionId) => {
     const section = document.getElementById(sectionId);
@@ -382,50 +375,6 @@ function App() {
           text: 'Nossa equipe está pronta para esclarecer suas dúvidas!',
           whatsappMsg: 'Olá! Tenho algumas dúvidas sobre os serviços.'
         }
-      },
-      en: {
-        services: {
-          title: '📦 Our Services',
-          text: 'We offer complete solutions in River-Road Transport, Cargo Distribution, Warehousing and Export.',
-          whatsappMsg: 'Hello! I would like to know more about JF Organização services.'
-        },
-        quote: {
-          title: '💰 Request a Quote',
-          text: 'We will prepare a personalized quote for your company!',
-          whatsappMsg: 'Hello! I would like to request a quote.'
-        },
-        export: {
-          title: '🌍 Export',
-          text: 'We handle the entire export process with complete international trade advisory.',
-          whatsappMsg: 'Hello! I need information about export services.'
-        },
-        other: {
-          title: '❓ Other Questions',
-          text: 'Our team is ready to answer your questions!',
-          whatsappMsg: 'Hello! I have some questions about your services.'
-        }
-      },
-      es: {
-        services: {
-          title: '📦 Nuestros Servicios',
-          text: 'Ofrecemos soluciones completas en Transporte RodoFluvial, Distribución de Cargas, Almacenamiento y Exportación.',
-          whatsappMsg: '¡Hola! Me gustaría conocer mejor los servicios de JF Organização.'
-        },
-        quote: {
-          title: '💰 Solicitar Presupuesto',
-          text: '¡Elaboraremos un presupuesto personalizado para su empresa!',
-          whatsappMsg: '¡Hola! Me gustaría solicitar un presupuesto.'
-        },
-        export: {
-          title: '🌍 Exportación',
-          text: 'Cuidamos de todo el proceso de exportación con asesoría completa en comercio internacional.',
-          whatsappMsg: '¡Hola! Necesito información sobre exportación.'
-        },
-        other: {
-          title: '❓ Otras Dudas',
-          text: '¡Nuestro equipo está listo para aclarar sus dudas!',
-          whatsappMsg: '¡Hola! Tengo algunas dudas sobre los servicios.'
-        }
       }
     };
 
@@ -434,6 +383,15 @@ function App() {
 
   const resetChat = () => {
     setChatResponse(null);
+  };
+
+  const getStatusColor = (status) => {
+    switch(status) {
+      case 'Entregue': return '#22c55e';
+      case 'Em Trânsito': return '#3b82f6';
+      case 'Aguardando Coleta': return '#f59e0b';
+      default: return '#6b7280';
+    }
   };
 
   return (
@@ -458,6 +416,29 @@ function App() {
                 onClick={() => setMenuOpen(false)}
               >
                 {t('nav-services')}
+              </a>
+            </li>
+            <li>
+              <a onClick={() => {
+                setShowTracking(true);
+                setShowEmployeePanel(false);
+                setMenuOpen(false);
+              }}>
+                {t('nav-tracking')}
+              </a>
+            </li>
+            <li>
+              <a onClick={() => {
+                if (!isEmployeeLoggedIn) {
+                  setShowEmployeeLogin(true);
+                  setShowTracking(false);
+                } else {
+                  setShowEmployeePanel(true);
+                  setShowTracking(false);
+                }
+                setMenuOpen(false);
+              }}>
+                {t('nav-employee')}
               </a>
             </li>
             <li><a onClick={() => scrollToSection('abrangencia')}>{t('nav-coverage')}</a></li>
@@ -486,6 +467,366 @@ function App() {
           </div>
         </nav>
       </header>
+
+      {/* Modal de Rastreamento */}
+      {showTracking && (
+        <div className="modal-overlay" onClick={() => {
+          setShowTracking(false);
+          setTrackingResult(null);
+          setTrackingDocument('');
+        }}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close" onClick={() => {
+              setShowTracking(false);
+              setTrackingResult(null);
+              setTrackingDocument('');
+            }}>×</button>
+            
+            <h2 style={{ color: 'var(--primary)', marginBottom: '1rem' }}>
+              {t('tracking-title')}
+            </h2>
+            <p style={{ color: '#666', marginBottom: '2rem' }}>
+              {t('tracking-subtitle')}
+            </p>
+
+            <form onSubmit={handleTracking} style={{ marginBottom: '2rem' }}>
+              <input
+                type="text"
+                value={trackingDocument}
+                onChange={(e) => setTrackingDocument(e.target.value)}
+                placeholder={t('tracking-placeholder')}
+                className="tracking-input"
+                required
+              />
+              <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '1rem' }}>
+                🔍 {t('tracking-button')}
+              </button>
+            </form>
+
+            {trackingResult === 'not-found' && (
+              <div className="alert alert-warning">
+                ⚠️ {t('tracking-not-found')}
+              </div>
+            )}
+
+            {trackingResult && trackingResult !== 'not-found' && (
+              <div className="tracking-result">
+                <div style={{ background: '#f8f9fa', padding: '1.5rem', borderRadius: '10px', marginBottom: '1rem' }}>
+                  <h3 style={{ color: 'var(--primary)', marginBottom: '1rem' }}>
+                    📦 {trackingResult.customerName}
+                  </h3>
+                  <div style={{ display: 'grid', gap: '0.8rem' }}>
+                    <p><strong>Produto:</strong> {trackingResult.product}</p>
+                    <p><strong>Origem:</strong> {trackingResult.origin}</p>
+                    <p><strong>Destino:</strong> {trackingResult.destination}</p>
+                    <p>
+                      <strong>Status:</strong>{' '}
+                      <span style={{ 
+                        color: getStatusColor(trackingResult.status),
+                        fontWeight: 'bold'
+                      }}>
+                        {trackingResult.status}
+                      </span>
+                    </p>
+                    <p><strong>Localização Atual:</strong> {trackingResult.currentLocation}</p>
+                    <p><strong>Previsão de Entrega:</strong> {trackingResult.estimatedDelivery}</p>
+                    <p style={{ fontSize: '0.9rem', color: '#666' }}>
+                      <em>Última atualização: {trackingResult.lastUpdate}</em>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Modal de Login de Funcionário */}
+      {showEmployeeLogin && !isEmployeeLoggedIn && (
+        <div className="modal-overlay" onClick={() => setShowEmployeeLogin(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '400px' }}>
+            <button className="modal-close" onClick={() => setShowEmployeeLogin(false)}>×</button>
+            
+            <h2 style={{ color: 'var(--primary)', marginBottom: '2rem', textAlign: 'center' }}>
+              🔐 {t('employee-login-title')}
+            </h2>
+
+            <form onSubmit={handleEmployeeLogin}>
+              <div style={{ marginBottom: '1rem' }}>
+                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>
+                  {t('employee-username')}
+                </label>
+                <input
+                  type="text"
+                  value={employeeUsername}
+                  onChange={(e) => setEmployeeUsername(e.target.value)}
+                  className="tracking-input"
+                  required
+                />
+              </div>
+              <div style={{ marginBottom: '1.5rem' }}>
+                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>
+                  {t('employee-password')}
+                </label>
+                <input
+                  type="password"
+                  value={employeePassword}
+                  onChange={(e) => setEmployeePassword(e.target.value)}
+                  className="tracking-input"
+                  required
+                />
+              </div>
+              <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>
+                {t('employee-login-button')}
+              </button>
+            </form>
+            
+            <p style={{ marginTop: '1rem', fontSize: '0.85rem', color: '#666', textAlign: 'center' }}>
+              Credenciais de teste: admin / jf2026
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Painel de Gerenciamento de Funcionário */}
+      {showEmployeePanel && isEmployeeLoggedIn && (
+        <div className="modal-overlay">
+          <div className="modal-content employee-panel" onClick={(e) => e.stopPropagation()}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+              <h2 style={{ color: 'var(--primary)', margin: 0 }}>
+                📊 {t('employee-panel-title')}
+              </h2>
+              <div style={{ display: 'flex', gap: '1rem' }}>
+                <button 
+                  className="btn btn-secondary"
+                  onClick={() => setShowEmployeePanel(false)}
+                >
+                  Minimizar
+                </button>
+                <button 
+                  className="btn btn-primary"
+                  onClick={() => {
+                    setIsEmployeeLoggedIn(false);
+                    setShowEmployeePanel(false);
+                  }}
+                >
+                  {t('employee-logout-button')}
+                </button>
+              </div>
+            </div>
+
+            {/* Formulário de Nova Entrega */}
+            <div style={{ background: '#f8f9fa', padding: '1.5rem', borderRadius: '10px', marginBottom: '2rem' }}>
+              <h3 style={{ marginBottom: '1rem' }}>➕ Adicionar Nova Entrega</h3>
+              <form onSubmit={handleAddDelivery}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1rem' }}>
+                  <input
+                    type="text"
+                    placeholder="CPF/CNPJ (apenas números)"
+                    value={newDelivery.document}
+                    onChange={(e) => setNewDelivery({...newDelivery, document: e.target.value})}
+                    className="tracking-input"
+                    required
+                  />
+                  <input
+                    type="text"
+                    placeholder="Nome do Cliente"
+                    value={newDelivery.customerName}
+                    onChange={(e) => setNewDelivery({...newDelivery, customerName: e.target.value})}
+                    className="tracking-input"
+                    required
+                  />
+                  <input
+                    type="text"
+                    placeholder="Produto"
+                    value={newDelivery.product}
+                    onChange={(e) => setNewDelivery({...newDelivery, product: e.target.value})}
+                    className="tracking-input"
+                    required
+                  />
+                  <input
+                    type="text"
+                    placeholder="Origem"
+                    value={newDelivery.origin}
+                    onChange={(e) => setNewDelivery({...newDelivery, origin: e.target.value})}
+                    className="tracking-input"
+                    required
+                  />
+                  <input
+                    type="text"
+                    placeholder="Destino"
+                    value={newDelivery.destination}
+                    onChange={(e) => setNewDelivery({...newDelivery, destination: e.target.value})}
+                    className="tracking-input"
+                    required
+                  />
+                  <input
+                    type="text"
+                    placeholder="Localização Atual"
+                    value={newDelivery.currentLocation}
+                    onChange={(e) => setNewDelivery({...newDelivery, currentLocation: e.target.value})}
+                    className="tracking-input"
+                    required
+                  />
+                  <select
+                    value={newDelivery.status}
+                    onChange={(e) => setNewDelivery({...newDelivery, status: e.target.value})}
+                    className="tracking-input"
+                    required
+                  >
+                    <option value="Aguardando Coleta">Aguardando Coleta</option>
+                    <option value="Em Trânsito">Em Trânsito</option>
+                    <option value="Entregue">Entregue</option>
+                  </select>
+                  <input
+                    type="text"
+                    placeholder="Previsão Entrega (DD/MM/AAAA)"
+                    value={newDelivery.estimatedDelivery}
+                    onChange={(e) => setNewDelivery({...newDelivery, estimatedDelivery: e.target.value})}
+                    className="tracking-input"
+                    required
+                  />
+                </div>
+                <button type="submit" className="btn btn-primary" style={{ marginTop: '1rem' }}>
+                  ✅ Adicionar Entrega
+                </button>
+              </form>
+            </div>
+
+            {/* Lista de Entregas */}
+            <div>
+              <h3 style={{ marginBottom: '1rem' }}>📋 Entregas Cadastradas ({deliveries.length})</h3>
+              <div style={{ display: 'grid', gap: '1rem' }}>
+                {deliveries.map(delivery => (
+                  <div key={delivery.id} style={{ 
+                    background: 'white', 
+                    padding: '1.5rem', 
+                    borderRadius: '10px',
+                    border: '2px solid #e5e7eb'
+                  }}>
+                    {editingDelivery?.id === delivery.id ? (
+                      // Modo de Edição
+                      <div>
+                        <h4 style={{ marginBottom: '1rem', color: 'var(--primary)' }}>✏️ Editando Entrega #{delivery.id}</h4>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
+                          <input
+                            type="text"
+                            value={editingDelivery.document}
+                            onChange={(e) => setEditingDelivery({...editingDelivery, document: e.target.value})}
+                            className="tracking-input"
+                            placeholder="CPF/CNPJ"
+                          />
+                          <input
+                            type="text"
+                            value={editingDelivery.customerName}
+                            onChange={(e) => setEditingDelivery({...editingDelivery, customerName: e.target.value})}
+                            className="tracking-input"
+                            placeholder="Nome do Cliente"
+                          />
+                          <input
+                            type="text"
+                            value={editingDelivery.product}
+                            onChange={(e) => setEditingDelivery({...editingDelivery, product: e.target.value})}
+                            className="tracking-input"
+                            placeholder="Produto"
+                          />
+                          <input
+                            type="text"
+                            value={editingDelivery.currentLocation}
+                            onChange={(e) => setEditingDelivery({...editingDelivery, currentLocation: e.target.value})}
+                            className="tracking-input"
+                            placeholder="Localização Atual"
+                          />
+                          <select
+                            value={editingDelivery.status}
+                            onChange={(e) => setEditingDelivery({...editingDelivery, status: e.target.value})}
+                            className="tracking-input"
+                          >
+                            <option value="Aguardando Coleta">Aguardando Coleta</option>
+                            <option value="Em Trânsito">Em Trânsito</option>
+                            <option value="Entregue">Entregue</option>
+                          </select>
+                          <input
+                            type="text"
+                            value={editingDelivery.estimatedDelivery}
+                            onChange={(e) => setEditingDelivery({...editingDelivery, estimatedDelivery: e.target.value})}
+                            className="tracking-input"
+                            placeholder="Previsão Entrega"
+                          />
+                        </div>
+                        <div style={{ display: 'flex', gap: '0.5rem', marginTop: '1rem' }}>
+                          <button 
+                            className="btn btn-primary"
+                            onClick={() => handleUpdateDelivery(delivery.id)}
+                          >
+                            💾 Salvar
+                          </button>
+                          <button 
+                            className="btn btn-secondary"
+                            onClick={() => setEditingDelivery(null)}
+                          >
+                            ❌ Cancelar
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      // Modo de Visualização
+                      <div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '1rem' }}>
+                          <div>
+                            <h4 style={{ color: 'var(--primary)', marginBottom: '0.5rem' }}>
+                              {delivery.customerName}
+                            </h4>
+                            <p style={{ fontSize: '0.9rem', color: '#666' }}>
+                              CPF/CNPJ: {delivery.document}
+                            </p>
+                          </div>
+                          <span style={{
+                            padding: '0.3rem 1rem',
+                            borderRadius: '20px',
+                            fontSize: '0.9rem',
+                            fontWeight: 'bold',
+                            color: 'white',
+                            background: getStatusColor(delivery.status)
+                          }}>
+                            {delivery.status}
+                          </span>
+                        </div>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '0.8rem', marginBottom: '1rem' }}>
+                          <p><strong>Produto:</strong> {delivery.product}</p>
+                          <p><strong>Origem:</strong> {delivery.origin}</p>
+                          <p><strong>Destino:</strong> {delivery.destination}</p>
+                          <p><strong>Localização:</strong> {delivery.currentLocation}</p>
+                          <p><strong>Previsão:</strong> {delivery.estimatedDelivery}</p>
+                          <p style={{ fontSize: '0.85rem', color: '#666' }}>
+                            <em>Atualizado: {delivery.lastUpdate}</em>
+                          </p>
+                        </div>
+                        <div style={{ display: 'flex', gap: '0.5rem' }}>
+                          <button 
+                            className="btn btn-primary"
+                            style={{ padding: '0.5rem 1rem', fontSize: '0.9rem' }}
+                            onClick={() => setEditingDelivery(delivery)}
+                          >
+                            ✏️ Editar
+                          </button>
+                          <button 
+                            className="btn"
+                            style={{ padding: '0.5rem 1rem', fontSize: '0.9rem', background: '#ef4444', color: 'white' }}
+                            onClick={() => handleDeleteDelivery(delivery.id)}
+                          >
+                            🗑️ Excluir
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       <section 
         className="hero"
@@ -517,7 +858,6 @@ function App() {
           <p className="section-subtitle">{t('services-subtitle')}</p>
           
           <div className="services-grid">
-            {/* Card 1: Transporte RodoFluvial - image1 (1.jpeg) */}
             <div className="service-card" style={{
               backgroundImage: `linear-gradient(rgba(0, 51, 102, 0.85), rgba(0, 102, 204, 0.85)), url(${image1})`,
               backgroundSize: 'cover',
@@ -535,7 +875,6 @@ function App() {
               </div>
             </div>
 
-            {/* Card 2: Distribuição de Cargas - image4 (4.jpeg) */}
             <div className="service-card" style={{
               backgroundImage: `linear-gradient(rgba(0, 51, 102, 0.85), rgba(0, 102, 204, 0.85)), url(${image4})`,
               backgroundSize: 'cover',
@@ -553,7 +892,6 @@ function App() {
               </div>
             </div>
 
-            {/* Card 3: Armazenagem & Logística - image3 (3.jpeg) */}
             <div className="service-card" style={{
               backgroundImage: `linear-gradient(rgba(0, 51, 102, 0.85), rgba(0, 102, 204, 0.85)), url(${image3})`,
               backgroundSize: 'cover',
@@ -571,7 +909,6 @@ function App() {
               </div>
             </div>
 
-            {/* Card 4: Exportação & Comércio Exterior - backgroundImage (background.jpeg) */}
             <div className="service-card" style={{
               backgroundImage: `linear-gradient(rgba(0, 51, 102, 0.85), rgba(0, 102, 204, 0.85)), url(${backgroundImage})`,
               backgroundSize: 'cover',
@@ -592,7 +929,6 @@ function App() {
         </div>
       </section>
 
-      {/* Seção de Localidades com Mapa - ESTILIZADA */}
       <section className="coverage-section" id="abrangencia">
         <div className="container">
           <h2 className="section-title">{t('coverage-title')}</h2>
