@@ -1356,7 +1356,7 @@ function App() {
             <ul>
               <li><a>LinkedIn</a></li>
               <li><a>Facebook</a></li>
-              <li><a>Instagram</a></li>
+              <li><a href="https://www.instagram.com/jforganizacao?igsh=MTh2cDk0Z2kzcmlzbg==" target="_blank" rel="noopener noreferrer">Instagram</a></li>
               <li><a>WhatsApp Business</a></li>
             </ul>
           </div>
