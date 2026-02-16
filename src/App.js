@@ -109,14 +109,30 @@ function App() {
   
   const [editingDelivery, setEditingDelivery] = useState(null);
 
-  // Localização das filiais
+  // Localização das filiais — cidades atualizadas
   const locations = [
     { name: 'Matriz - Manaus', coords: [-3.1190, -60.0217], type: 'matriz', state: 'Amazonas' },
-    { name: 'Filial - Boa Vista', coords: [2.8235, -60.6758], type: 'filial', state: 'Roraima' },
-    { name: 'Filial - São Luís', coords: [-2.5307, -44.3068], type: 'filial', state: 'Maranhão' },
-    { name: 'Filial - Cuiabá', coords: [-15.6014, -56.0979], type: 'filial', state: 'Mato Grosso' },
+    { name: 'Filial - Pacaraima / Santa Elena VNZ', coords: [4.4862, -61.1358], type: 'filial', state: 'Roraima' },
+    { name: 'Filial - Codor', coords: [-4.4868, -43.8986], type: 'filial', state: 'Maranhão' },
+    { name: 'Filial - Campo Novo', coords: [-13.6556, -57.9021], type: 'filial', state: 'Mato Grosso' },
     { name: 'Filial - Goiânia', coords: [-16.6869, -49.2648], type: 'filial', state: 'Goiás' }
   ];
+
+  // WhatsApp numbers e messages por serviço
+  // service1 = Transporte RodoFluvial       → +55 92 99209-1329
+  // service2 = Distribuição de Cargas       → +55 92 9191-0173
+  // service3 = Armazenagem & Logística      → +55 92 9466-7456
+  // service4 = Exportação & Comércio Ext.   → +55 92 99209-1329
+  const serviceWhatsApp = {
+    service1: { number: '5592992091329', msg: 'Olá! Tenho interesse no serviço de *Transporte RodoFluvial* da JF Organização Trading. Podem me passar mais informações?' },
+    service2: { number: '559291910173',  msg: 'Olá! Tenho interesse no serviço de *Distribuição de Cargas* da JF Organização Trading. Podem me passar mais informações?' },
+    service3: { number: '559294667456',  msg: 'Olá! Tenho interesse no serviço de *Armazenagem & Logística* da JF Organização Trading. Podem me passar mais informações?' },
+    service4: { number: '5592992091329', msg: 'Olá! Tenho interesse no serviço de *Exportação & Comércio Exterior* da JF Organização Trading. Podem me passar mais informações?' },
+  };
+
+  // Helper para montar link WhatsApp
+  const waLink = (service) =>
+    `https://wa.me/${serviceWhatsApp[service].number}?text=${encodeURIComponent(serviceWhatsApp[service].msg)}`;
 
   const translations = {
     pt: {
@@ -171,6 +187,7 @@ function App() {
       'placeholder-forecast': 'Previsão Entrega (DD/MM/AAAA)',
       'services-title': 'Nossas Especialidades',
       'services-subtitle': 'Oferecemos soluções completas e integradas para atender todas as necessidades logísticas da sua empresa',
+      'service-cta': 'Falar com especialista',
       'coverage-title': 'Nossas Localidades',
       'coverage-subtitle': 'Posicionamento estratégico em pontos-chave do território brasileiro para atender melhor você',
       'coverage-matriz': 'Matriz',
@@ -180,13 +197,13 @@ function App() {
       'location-desc1': 'Centro estratégico de operações',
       'location-desc2': 'Hub logístico da região Norte',
       'location-desc3': 'Distribuição rodofluvial',
-      'location-boavista': 'Boa Vista',
+      'location-boavista': 'Pacaraima',
       'location-roraima': 'Roraima',
-      'branch-specialty1': 'Fronteira internacional',
-      'location-saoluis': 'São Luís',
+      'branch-specialty1': 'Fronteira internacional — Santa Elena VNZ',
+      'location-saoluis': 'Codor',
       'location-maranhao': 'Maranhão',
       'branch-specialty2': 'Porto e exportação',
-      'location-cuiaba': 'Cuiabá',
+      'location-cuiaba': 'Campo Novo',
       'location-matogrosso': 'Mato Grosso',
       'branch-specialty3': 'Centro-Oeste estratégico',
       'location-goiania': 'Goiânia',
@@ -304,6 +321,7 @@ function App() {
       'placeholder-forecast': 'Delivery Forecast (MM/DD/YYYY)',
       'services-title': 'Our Specialties',
       'services-subtitle': 'We offer complete and integrated solutions to meet all your company\'s logistics needs',
+      'service-cta': 'Talk to a specialist',
       'coverage-title': 'Our Locations',
       'coverage-subtitle': 'Strategic positioning at key points in Brazilian territory to better serve you',
       'coverage-matriz': 'Headquarters',
@@ -313,13 +331,13 @@ function App() {
       'location-desc1': 'Strategic operations center',
       'location-desc2': 'Logistics hub of the North region',
       'location-desc3': 'River-road distribution',
-      'location-boavista': 'Boa Vista',
+      'location-boavista': 'Pacaraima',
       'location-roraima': 'Roraima',
-      'branch-specialty1': 'International border',
-      'location-saoluis': 'São Luís',
+      'branch-specialty1': 'International border — Santa Elena VNZ',
+      'location-saoluis': 'Codor',
       'location-maranhao': 'Maranhão',
       'branch-specialty2': 'Port and export',
-      'location-cuiaba': 'Cuiabá',
+      'location-cuiaba': 'Campo Novo',
       'location-matogrosso': 'Mato Grosso',
       'branch-specialty3': 'Strategic Midwest',
       'location-goiania': 'Goiânia',
@@ -437,6 +455,7 @@ function App() {
       'placeholder-forecast': 'Previsión Entrega (DD/MM/AAAA)',
       'services-title': 'Nuestras Especialidades',
       'services-subtitle': 'Ofrecemos soluciones completas e integradas para atender todas las necesidades logísticas de su empresa',
+      'service-cta': 'Hablar con especialista',
       'coverage-title': 'Nuestras Localidades',
       'coverage-subtitle': 'Posicionamiento estratégico en puntos clave del territorio brasileño para atenderle mejor',
       'coverage-matriz': 'Sede',
@@ -446,13 +465,13 @@ function App() {
       'location-desc1': 'Centro estratégico de operaciones',
       'location-desc2': 'Hub logístico de la región Norte',
       'location-desc3': 'Distribución rodofluvial',
-      'location-boavista': 'Boa Vista',
+      'location-boavista': 'Pacaraima',
       'location-roraima': 'Roraima',
-      'branch-specialty1': 'Frontera internacional',
-      'location-saoluis': 'São Luís',
+      'branch-specialty1': 'Frontera internacional — Santa Elena VNZ',
+      'location-saoluis': 'Codor',
       'location-maranhao': 'Maranhão',
       'branch-specialty2': 'Puerto y exportación',
-      'location-cuiaba': 'Cuiabá',
+      'location-cuiaba': 'Campo Nuevo',
       'location-matogrosso': 'Mato Grosso',
       'branch-specialty3': 'Centro-Oeste estratégico',
       'location-goiania': 'Goiânia',
@@ -543,7 +562,6 @@ function App() {
   // Função de login de funcionário
   const handleEmployeeLogin = (e) => {
     e.preventDefault();
-    // Credenciais simples (em produção, usar autenticação real)
     if (employeeUsername === 'admin' && employeePassword === 'jf2026') {
       setIsEmployeeLoggedIn(true);
       setShowEmployeeLogin(false);
@@ -593,6 +611,15 @@ function App() {
     }
   };
 
+  // ✅ ATUALIZADO: scrollToServices vai para a seção de serviços
+  const scrollToServices = () => {
+    const section = document.getElementById('servicos');
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    setMenuOpen(false);
+  };
+
   const scrollToSection = (sectionId) => {
     const section = document.getElementById(sectionId);
     if (section) {
@@ -629,10 +656,55 @@ function App() {
           text: 'Nossa equipe está pronta para esclarecer suas dúvidas!',
           whatsappMsg: 'Olá! Tenho algumas dúvidas sobre os serviços.'
         }
+      },
+      en: {
+        services: {
+          title: '📦 Our Services',
+          text: 'We offer complete solutions in River-Road Transport, Cargo Distribution, Warehousing and Export.',
+          whatsappMsg: 'Hello! I would like to learn more about JF Organização services.'
+        },
+        quote: {
+          title: '💰 Request a Quote',
+          text: 'We will prepare a customized quote for your company!',
+          whatsappMsg: 'Hello! I would like to request a quote.'
+        },
+        export: {
+          title: '🌍 Export',
+          text: 'We take care of the entire export process with full international trade advisory.',
+          whatsappMsg: 'Hello! I need information about export.'
+        },
+        other: {
+          title: '❓ Other Questions',
+          text: 'Our team is ready to answer your questions!',
+          whatsappMsg: 'Hello! I have some questions about the services.'
+        }
+      },
+      es: {
+        services: {
+          title: '📦 Nuestros Servicios',
+          text: 'Ofrecemos soluciones completas en Transporte RodoFluvial, Distribución de Cargas, Almacenamiento y Exportación.',
+          whatsappMsg: 'Hola! Me gustaría conocer mejor los servicios de JF Organização.'
+        },
+        quote: {
+          title: '💰 Solicitar Presupuesto',
+          text: 'Elaboraremos un presupuesto personalizado para su empresa!',
+          whatsappMsg: 'Hola! Me gustaría solicitar un presupuesto.'
+        },
+        export: {
+          title: '🌍 Exportación',
+          text: 'Nos encargamos de todo el proceso de exportación con asesoría completa en comercio internacional.',
+          whatsappMsg: 'Hola! Necesito información sobre exportación.'
+        },
+        other: {
+          title: '❓ Otras Dudas',
+          text: '¡Nuestro equipo está listo para resolver sus dudas!',
+          whatsappMsg: 'Hola! Tengo algunas dudas sobre los servicios.'
+        }
       }
     };
 
-    setChatResponse(responses[currentLang][option]);
+    const langResponses = responses[currentLang] || responses['pt'];
+    setChatResponse(langResponses[option]);
   };
 
   const resetChat = () => {
@@ -652,7 +724,9 @@ function App() {
     <div className="App">
       <header>
         <nav>
+          {/* ✅ ATUALIZADO: Logo com miniatura da imagem */}
           <div className="logo" onClick={scrollToTop}>
+            <img src={logoImage} alt="JF Organização Trading" className="logo-img" />
             JF <span>Organização Trading</span>
           </div>
           <div className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
@@ -662,13 +736,9 @@ function App() {
           </div>
           <ul className={`nav-links ${menuOpen ? 'active' : ''}`}>
             <li><a onClick={scrollToTop} className="active">{t('nav-home')}</a></li>
+            {/* ✅ ATUALIZADO: Navega para seção de serviços em vez de WhatsApp */}
             <li>
-              <a 
-                href="https://wa.me/5592992091329?text=Olá!%20Gostaria%20de%20conhecer%20os%20serviços%20da%20JF%20Organização%20Trading%20e%20possivelmente%20fechar%20um%20orçamento.%20Podem%20me%20passar%20mais%20informações?" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                onClick={() => setMenuOpen(false)}
-              >
+              <a onClick={scrollToServices}>
                 {t('nav-services')}
               </a>
             </li>
@@ -874,72 +944,18 @@ function App() {
               <h3 style={{ marginBottom: '1rem' }}>➕ {t('employee-add-delivery')}</h3>
               <form onSubmit={handleAddDelivery}>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1rem' }}>
-                  <input
-                    type="text"
-                    placeholder={t('placeholder-document')}
-                    value={newDelivery.document}
-                    onChange={(e) => setNewDelivery({...newDelivery, document: e.target.value})}
-                    className="tracking-input"
-                    required
-                  />
-                  <input
-                    type="text"
-                    placeholder={t('placeholder-customer')}
-                    value={newDelivery.customerName}
-                    onChange={(e) => setNewDelivery({...newDelivery, customerName: e.target.value})}
-                    className="tracking-input"
-                    required
-                  />
-                  <input
-                    type="text"
-                    placeholder={t('placeholder-product')}
-                    value={newDelivery.product}
-                    onChange={(e) => setNewDelivery({...newDelivery, product: e.target.value})}
-                    className="tracking-input"
-                    required
-                  />
-                  <input
-                    type="text"
-                    placeholder={t('placeholder-origin')}
-                    value={newDelivery.origin}
-                    onChange={(e) => setNewDelivery({...newDelivery, origin: e.target.value})}
-                    className="tracking-input"
-                    required
-                  />
-                  <input
-                    type="text"
-                    placeholder={t('placeholder-destination')}
-                    value={newDelivery.destination}
-                    onChange={(e) => setNewDelivery({...newDelivery, destination: e.target.value})}
-                    className="tracking-input"
-                    required
-                  />
-                  <input
-                    type="text"
-                    placeholder={t('placeholder-location')}
-                    value={newDelivery.currentLocation}
-                    onChange={(e) => setNewDelivery({...newDelivery, currentLocation: e.target.value})}
-                    className="tracking-input"
-                    required
-                  />
-                  <select
-                    value={newDelivery.status}
-                    onChange={(e) => setNewDelivery({...newDelivery, status: e.target.value})}
-                    className="tracking-input"
-                    required
-                  >
+                  <input type="text" placeholder={t('placeholder-document')} value={newDelivery.document} onChange={(e) => setNewDelivery({...newDelivery, document: e.target.value})} className="tracking-input" required />
+                  <input type="text" placeholder={t('placeholder-customer')} value={newDelivery.customerName} onChange={(e) => setNewDelivery({...newDelivery, customerName: e.target.value})} className="tracking-input" required />
+                  <input type="text" placeholder={t('placeholder-product')} value={newDelivery.product} onChange={(e) => setNewDelivery({...newDelivery, product: e.target.value})} className="tracking-input" required />
+                  <input type="text" placeholder={t('placeholder-origin')} value={newDelivery.origin} onChange={(e) => setNewDelivery({...newDelivery, origin: e.target.value})} className="tracking-input" required />
+                  <input type="text" placeholder={t('placeholder-destination')} value={newDelivery.destination} onChange={(e) => setNewDelivery({...newDelivery, destination: e.target.value})} className="tracking-input" required />
+                  <input type="text" placeholder={t('placeholder-location')} value={newDelivery.currentLocation} onChange={(e) => setNewDelivery({...newDelivery, currentLocation: e.target.value})} className="tracking-input" required />
+                  <select value={newDelivery.status} onChange={(e) => setNewDelivery({...newDelivery, status: e.target.value})} className="tracking-input" required>
                     <option value="Aguardando Coleta">{t('employee-status-waiting')}</option>
                     <option value="Em Trânsito">{t('employee-status-transit')}</option>
                     <option value="Entregue">{t('employee-status-delivered')}</option>
                   </select>
-                  <input
-                    type="text"
-                    placeholder={t('placeholder-forecast')}
-                    value={newDelivery.estimatedDelivery}
-                    onChange={(e) => setNewDelivery({...newDelivery, estimatedDelivery: e.target.value})}
-                    className="tracking-input"
-                    required
-                  />
+                  <input type="text" placeholder={t('placeholder-forecast')} value={newDelivery.estimatedDelivery} onChange={(e) => setNewDelivery({...newDelivery, estimatedDelivery: e.target.value})} className="tracking-input" required />
                 </div>
                 <button type="submit" className="btn btn-primary" style={{ marginTop: '1rem' }}>
                   ✅ {t('employee-add-button')}
@@ -952,97 +968,35 @@ function App() {
               <h3 style={{ marginBottom: '1rem' }}>📋 {t('employee-deliveries-list')} ({deliveries.length})</h3>
               <div style={{ display: 'grid', gap: '1rem' }}>
                 {deliveries.map(delivery => (
-                  <div key={delivery.id} style={{ 
-                    background: 'white', 
-                    padding: '1.5rem', 
-                    borderRadius: '10px',
-                    border: '2px solid #e5e7eb'
-                  }}>
+                  <div key={delivery.id} style={{ background: 'white', padding: '1.5rem', borderRadius: '10px', border: '2px solid #e5e7eb' }}>
                     {editingDelivery?.id === delivery.id ? (
-                      // Modo de Edição
                       <div>
                         <h4 style={{ marginBottom: '1rem', color: 'var(--primary)' }}>✏️ {t('employee-editing')} #{delivery.id}</h4>
                         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
-                          <input
-                            type="text"
-                            value={editingDelivery.document}
-                            onChange={(e) => setEditingDelivery({...editingDelivery, document: e.target.value})}
-                            className="tracking-input"
-                            placeholder="CPF/CNPJ"
-                          />
-                          <input
-                            type="text"
-                            value={editingDelivery.customerName}
-                            onChange={(e) => setEditingDelivery({...editingDelivery, customerName: e.target.value})}
-                            className="tracking-input"
-                            placeholder={t('placeholder-customer')}
-                          />
-                          <input
-                            type="text"
-                            value={editingDelivery.product}
-                            onChange={(e) => setEditingDelivery({...editingDelivery, product: e.target.value})}
-                            className="tracking-input"
-                            placeholder={t('placeholder-product')}
-                          />
-                          <input
-                            type="text"
-                            value={editingDelivery.currentLocation}
-                            onChange={(e) => setEditingDelivery({...editingDelivery, currentLocation: e.target.value})}
-                            className="tracking-input"
-                            placeholder={t('placeholder-location')}
-                          />
-                          <select
-                            value={editingDelivery.status}
-                            onChange={(e) => setEditingDelivery({...editingDelivery, status: e.target.value})}
-                            className="tracking-input"
-                          >
+                          <input type="text" value={editingDelivery.document} onChange={(e) => setEditingDelivery({...editingDelivery, document: e.target.value})} className="tracking-input" placeholder="CPF/CNPJ" />
+                          <input type="text" value={editingDelivery.customerName} onChange={(e) => setEditingDelivery({...editingDelivery, customerName: e.target.value})} className="tracking-input" placeholder={t('placeholder-customer')} />
+                          <input type="text" value={editingDelivery.product} onChange={(e) => setEditingDelivery({...editingDelivery, product: e.target.value})} className="tracking-input" placeholder={t('placeholder-product')} />
+                          <input type="text" value={editingDelivery.currentLocation} onChange={(e) => setEditingDelivery({...editingDelivery, currentLocation: e.target.value})} className="tracking-input" placeholder={t('placeholder-location')} />
+                          <select value={editingDelivery.status} onChange={(e) => setEditingDelivery({...editingDelivery, status: e.target.value})} className="tracking-input">
                             <option value="Aguardando Coleta">{t('employee-status-waiting')}</option>
                             <option value="Em Trânsito">{t('employee-status-transit')}</option>
                             <option value="Entregue">{t('employee-status-delivered')}</option>
                           </select>
-                          <input
-                            type="text"
-                            value={editingDelivery.estimatedDelivery}
-                            onChange={(e) => setEditingDelivery({...editingDelivery, estimatedDelivery: e.target.value})}
-                            className="tracking-input"
-                            placeholder={t('placeholder-forecast')}
-                          />
+                          <input type="text" value={editingDelivery.estimatedDelivery} onChange={(e) => setEditingDelivery({...editingDelivery, estimatedDelivery: e.target.value})} className="tracking-input" placeholder={t('placeholder-forecast')} />
                         </div>
                         <div style={{ display: 'flex', gap: '0.5rem', marginTop: '1rem', flexWrap: 'wrap' }}>
-                          <button 
-                            className="btn btn-primary"
-                            onClick={() => handleUpdateDelivery(delivery.id)}
-                          >
-                            💾 {t('employee-save')}
-                          </button>
-                          <button 
-                            className="btn btn-secondary"
-                            onClick={() => setEditingDelivery(null)}
-                          >
-                            ❌ {t('employee-cancel')}
-                          </button>
+                          <button className="btn btn-primary" onClick={() => handleUpdateDelivery(delivery.id)}>💾 {t('employee-save')}</button>
+                          <button className="btn btn-secondary" onClick={() => setEditingDelivery(null)}>❌ {t('employee-cancel')}</button>
                         </div>
                       </div>
                     ) : (
-                      // Modo de Visualização
                       <div>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '1rem', flexWrap: 'wrap', gap: '0.5rem' }}>
                           <div>
-                            <h4 style={{ color: 'var(--primary)', marginBottom: '0.5rem' }}>
-                              {delivery.customerName}
-                            </h4>
-                            <p style={{ fontSize: '0.9rem', color: '#666' }}>
-                              CPF/CNPJ: {delivery.document}
-                            </p>
+                            <h4 style={{ color: 'var(--primary)', marginBottom: '0.5rem' }}>{delivery.customerName}</h4>
+                            <p style={{ fontSize: '0.9rem', color: '#666' }}>CPF/CNPJ: {delivery.document}</p>
                           </div>
-                          <span style={{
-                            padding: '0.3rem 1rem',
-                            borderRadius: '20px',
-                            fontSize: '0.9rem',
-                            fontWeight: 'bold',
-                            color: 'white',
-                            background: getStatusColor(delivery.status)
-                          }}>
+                          <span style={{ padding: '0.3rem 1rem', borderRadius: '20px', fontSize: '0.9rem', fontWeight: 'bold', color: 'white', background: getStatusColor(delivery.status) }}>
                             {translateStatus(delivery.status)}
                           </span>
                         </div>
@@ -1052,25 +1006,11 @@ function App() {
                           <p><strong>{t('employee-destination')}:</strong> {delivery.destination}</p>
                           <p><strong>{t('employee-location')}:</strong> {delivery.currentLocation}</p>
                           <p><strong>{t('employee-forecast')}:</strong> {delivery.estimatedDelivery}</p>
-                          <p style={{ fontSize: '0.85rem', color: '#666' }}>
-                            <em>{t('employee-updated')}: {delivery.lastUpdate}</em>
-                          </p>
+                          <p style={{ fontSize: '0.85rem', color: '#666' }}><em>{t('employee-updated')}: {delivery.lastUpdate}</em></p>
                         </div>
                         <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-                          <button 
-                            className="btn btn-primary"
-                            style={{ padding: '0.5rem 1rem', fontSize: '0.9rem' }}
-                            onClick={() => setEditingDelivery(delivery)}
-                          >
-                            ✏️ {t('employee-edit')}
-                          </button>
-                          <button 
-                            className="btn"
-                            style={{ padding: '0.5rem 1rem', fontSize: '0.9rem', background: '#ef4444', color: 'white' }}
-                            onClick={() => handleDeleteDelivery(delivery.id)}
-                          >
-                            🗑️ {t('employee-delete')}
-                          </button>
+                          <button className="btn btn-primary" style={{ padding: '0.5rem 1rem', fontSize: '0.9rem' }} onClick={() => setEditingDelivery(delivery)}>✏️ {t('employee-edit')}</button>
+                          <button className="btn" style={{ padding: '0.5rem 1rem', fontSize: '0.9rem', background: '#ef4444', color: 'white' }} onClick={() => handleDeleteDelivery(delivery.id)}>🗑️ {t('employee-delete')}</button>
                         </div>
                       </div>
                     )}
@@ -1085,7 +1025,7 @@ function App() {
       <section 
         className="hero"
         style={{ 
-          backgroundImage: `linear-gradient(rgba(0, 51, 102, 0.7), rgba(0, 102, 204, 0.7)), url(${image2})`,
+          backgroundImage: `linear-gradient(rgba(0, 51, 102, 0.55), rgba(0, 102, 204, 0.55)), url(${image2})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
@@ -1095,14 +1035,13 @@ function App() {
         <h1>{t('hero-title')}</h1>
         <p>{t('hero-subtitle')}</p>
         <div className="cta-buttons">
-          <a 
-            href="https://wa.me/5592992091329?text=Olá!%20Gostaria%20de%20conhecer%20os%20serviços%20da%20JF%20Organização%20Trading%20e%20possivelmente%20fechar%20um%20orçamento.%20Podem%20me%20passar%20mais%20informações?" 
-            target="_blank" 
-            rel="noopener noreferrer"
+          {/* ✅ ATUALIZADO: Botão hero também rola para serviços */}
+          <button 
+            onClick={scrollToServices}
             className="btn btn-secondary"
           >
             {t('btn-services')}
-          </a>
+          </button>
         </div>
       </section>
 
@@ -1112,71 +1051,107 @@ function App() {
           <p className="section-subtitle">{t('services-subtitle')}</p>
           
           <div className="services-grid">
+            {/* Card 1 — Transporte RodoFluvial */}
             <div className="service-card" style={{
-              backgroundImage: `linear-gradient(rgba(0, 51, 102, 0.85), rgba(0, 102, 204, 0.85)), url(${image1})`,
+              backgroundImage: `linear-gradient(rgba(0, 20, 60, 0.30), rgba(0, 70, 150, 0.30)), url(${image1})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center'
             }}>
               <div className="service-card-content">
                 <h3 style={{ color: 'white' }}>{t('service1-title')}</h3>
-                <p style={{ color: 'rgba(255, 255, 255, 0.9)' }}>{t('service1-desc')}</p>
+                <p style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service1-desc')}</p>
                 <ul className="service-features">
                   <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service1-feature1')}</li>
                   <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service1-feature2')}</li>
                   <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service1-feature3')}</li>
                   <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service1-feature4')}</li>
                 </ul>
+                <a
+                  href={waLink('service1')}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="service-whatsapp-btn"
+                >
+                  💬 {t('service-cta')}
+                </a>
               </div>
             </div>
 
+            {/* Card 2 — Distribuição de Cargas */}
             <div className="service-card" style={{
-              backgroundImage: `linear-gradient(rgba(0, 51, 102, 0.85), rgba(0, 102, 204, 0.85)), url(${image4})`,
+              backgroundImage: `linear-gradient(rgba(0, 20, 60, 0.30), rgba(0, 70, 150, 0.30)), url(${image4})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center'
             }}>
               <div className="service-card-content">
                 <h3 style={{ color: 'white' }}>{t('service2-title')}</h3>
-                <p style={{ color: 'rgba(255, 255, 255, 0.9)' }}>{t('service2-desc')}</p>
+                <p style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service2-desc')}</p>
                 <ul className="service-features">
                   <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service2-feature1')}</li>
                   <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service2-feature2')}</li>
                   <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service2-feature3')}</li>
                   <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service2-feature4')}</li>
                 </ul>
+                <a
+                  href={waLink('service2')}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="service-whatsapp-btn"
+                >
+                  💬 {t('service-cta')}
+                </a>
               </div>
             </div>
 
+            {/* Card 3 — Armazenagem & Logística */}
             <div className="service-card" style={{
-              backgroundImage: `linear-gradient(rgba(0, 51, 102, 0.85), rgba(0, 102, 204, 0.85)), url(${image3})`,
+              backgroundImage: `linear-gradient(rgba(0, 20, 60, 0.30), rgba(0, 70, 150, 0.30)), url(${image3})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center'
             }}>
               <div className="service-card-content">
                 <h3 style={{ color: 'white' }}>{t('service3-title')}</h3>
-                <p style={{ color: 'rgba(255, 255, 255, 0.9)' }}>{t('service3-desc')}</p>
+                <p style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service3-desc')}</p>
                 <ul className="service-features">
                   <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service3-feature1')}</li>
                   <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service3-feature2')}</li>
                   <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service3-feature3')}</li>
                   <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service3-feature4')}</li>
                 </ul>
+                <a
+                  href={waLink('service3')}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="service-whatsapp-btn"
+                >
+                  💬 {t('service-cta')}
+                </a>
               </div>
             </div>
 
+            {/* Card 4 — Exportação & Comércio Exterior */}
             <div className="service-card" style={{
-              backgroundImage: `linear-gradient(rgba(0, 51, 102, 0.85), rgba(0, 102, 204, 0.85)), url(${backgroundImage})`,
+              backgroundImage: `linear-gradient(rgba(0, 20, 60, 0.30), rgba(0, 70, 150, 0.30)), url(${backgroundImage})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center'
             }}>
               <div className="service-card-content">
                 <h3 style={{ color: 'white' }}>{t('service4-title')}</h3>
-                <p style={{ color: 'rgba(255, 255, 255, 0.9)' }}>{t('service4-desc')}</p>
+                <p style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service4-desc')}</p>
                 <ul className="service-features">
                   <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service4-feature1')}</li>
                   <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service4-feature2')}</li>
                   <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service4-feature3')}</li>
                   <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service4-feature4')}</li>
                 </ul>
+                <a
+                  href={waLink('service4')}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="service-whatsapp-btn"
+                >
+                  💬 {t('service-cta')}
+                </a>
               </div>
             </div>
           </div>
@@ -1204,18 +1179,21 @@ function App() {
               </div>
 
               <div className="branches-grid">
+                {/* ✅ ATUALIZADO: Pacaraima / Santa Elena VNZ */}
                 <div className="location-card-enhanced branch-enhanced">
                   <h3>{t('location-boavista')}</h3>
                   <p className="state-badge">{t('location-roraima')}</p>
                   <p className="branch-specialty">{t('branch-specialty1')}</p>
                 </div>
 
+                {/* ✅ ATUALIZADO: Codor */}
                 <div className="location-card-enhanced branch-enhanced">
                   <h3>{t('location-saoluis')}</h3>
                   <p className="state-badge">{t('location-maranhao')}</p>
                   <p className="branch-specialty">{t('branch-specialty2')}</p>
                 </div>
 
+                {/* ✅ ATUALIZADO: Campo Novo */}
                 <div className="location-card-enhanced branch-enhanced">
                   <h3>{t('location-cuiaba')}</h3>
                   <p className="state-badge">{t('location-matogrosso')}</p>
@@ -1235,7 +1213,7 @@ function App() {
               <MapContainer 
                 center={[-10.0, -52.0]} 
                 zoom={4} 
-                style={{ height: '600px', width: '100%', borderRadius: '15px', boxShadow: '0 10px 40px rgba(0,0,0,0.15)' }}
+                style={{ height: '100%', minHeight: '600px', width: '100%', borderRadius: '15px', boxShadow: '0 10px 40px rgba(0,0,0,0.15)' }}
                 scrollWheelZoom={false}
               >
                 <TileLayer
@@ -1250,12 +1228,12 @@ function App() {
                   >
                     <Popup>
                       <div style={{ textAlign: 'center', padding: '0.5rem' }}>
-                        <strong style={{ fontSize: '1.2rem', color: location.type === 'matriz' ? '#dc2626' : '#2563eb', display: 'block', marginBottom: '0.5rem' }}>
+                        <strong style={{ fontSize: '1.1rem', color: location.type === 'matriz' ? '#dc2626' : '#2563eb', display: 'block', marginBottom: '0.5rem' }}>
                           {location.type === 'matriz' ? '🏢 ' : '🏪 '}
                           {location.name}
                         </strong>
-                        <p style={{ margin: '0.3rem 0', color: '#666', fontSize: '0.95rem' }}>{location.state}</p>
-                        <p style={{ margin: '0.5rem 0 0 0', color: '#888', fontSize: '0.85rem', fontStyle: 'italic' }}>
+                        <p style={{ margin: '0.3rem 0', color: '#666', fontSize: '0.9rem' }}>{location.state}</p>
+                        <p style={{ margin: '0.5rem 0 0 0', color: '#888', fontSize: '0.8rem', fontStyle: 'italic' }}>
                           {location.type === 'matriz' ? 'Centro de Operações' : 'Filial Estratégica'}
                         </p>
                       </div>
@@ -1359,42 +1337,10 @@ function App() {
           <div className="footer-section">
             <h3>{t('footer-services-title')}</h3>
             <ul>
-              <li>
-                <a 
-                  href="https://wa.me/5592992091329?text=Olá!%20Gostaria%20de%20conhecer%20os%20serviços%20da%20JF%20Organização%20Trading%20e%20possivelmente%20fechar%20um%20orçamento.%20Podem%20me%20passar%20mais%20informações?" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                >
-                  {t('footer-service1')}
-                </a>
-              </li>
-              <li>
-                <a 
-                  href="https://wa.me/5592992091329?text=Olá!%20Gostaria%20de%20conhecer%20os%20serviços%20da%20JF%20Organização%20Trading%20e%20possivelmente%20fechar%20um%20orçamento.%20Podem%20me%20passar%20mais%20informações?" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                >
-                  {t('footer-service2')}
-                </a>
-              </li>
-              <li>
-                <a 
-                  href="https://wa.me/5592992091329?text=Olá!%20Gostaria%20de%20conhecer%20os%20serviços%20da%20JF%20Organização%20Trading%20e%20possivelmente%20fechar%20um%20orçamento.%20Podem%20me%20passar%20mais%20informações?" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                >
-                  {t('footer-service3')}
-                </a>
-              </li>
-              <li>
-                <a 
-                  href="https://wa.me/5592992091329?text=Olá!%20Gostaria%20de%20conhecer%20os%20serviços%20da%20JF%20Organização%20Trading%20e%20possivelmente%20fechar%20um%20orçamento.%20Podem%20me%20passar%20mais%20informações?" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                >
-                  {t('footer-service4')}
-                </a>
-              </li>
+              <li><a href={waLink('service1')} target="_blank" rel="noopener noreferrer">{t('footer-service1')}</a></li>
+              <li><a href={waLink('service2')} target="_blank" rel="noopener noreferrer">{t('footer-service2')}</a></li>
+              <li><a href={waLink('service3')} target="_blank" rel="noopener noreferrer">{t('footer-service3')}</a></li>
+              <li><a href={waLink('service4')} target="_blank" rel="noopener noreferrer">{t('footer-service4')}</a></li>
             </ul>
           </div>
           <div className="footer-section">
@@ -1443,36 +1389,18 @@ function App() {
             <div style={{ padding: '1.5rem', flex: 1, overflowY: 'auto' }}>
               {!chatResponse ? (
                 <>
-                  <p style={{ color: '#666', marginBottom: '1.5rem', fontSize: '0.95rem' }}>
-                    {t('chat-intro')}
-                  </p>
+                  <p style={{ color: '#666', marginBottom: '1.5rem', fontSize: '0.95rem' }}>{t('chat-intro')}</p>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
-                    <button onClick={() => selectOption('services')} className="chat-option">
-                      <span style={{ fontSize: '1.3rem', marginRight: '0.5rem' }}>📦</span>
-                      <span>{t('chat-option-services')}</span>
-                    </button>
-                    <button onClick={() => selectOption('quote')} className="chat-option">
-                      <span style={{ fontSize: '1.3rem', marginRight: '0.5rem' }}>💰</span>
-                      <span>{t('chat-option-quote')}</span>
-                    </button>
-                    <button onClick={() => selectOption('export')} className="chat-option">
-                      <span style={{ fontSize: '1.3rem', marginRight: '0.5rem' }}>🌍</span>
-                      <span>{t('chat-option-export')}</span>
-                    </button>
-                    <button onClick={() => selectOption('other')} className="chat-option">
-                      <span style={{ fontSize: '1.3rem', marginRight: '0.5rem' }}>❓</span>
-                      <span>{t('chat-option-other')}</span>
-                    </button>
+                    <button onClick={() => selectOption('services')} className="chat-option"><span style={{ fontSize: '1.3rem', marginRight: '0.5rem' }}>📦</span><span>{t('chat-option-services')}</span></button>
+                    <button onClick={() => selectOption('quote')} className="chat-option"><span style={{ fontSize: '1.3rem', marginRight: '0.5rem' }}>💰</span><span>{t('chat-option-quote')}</span></button>
+                    <button onClick={() => selectOption('export')} className="chat-option"><span style={{ fontSize: '1.3rem', marginRight: '0.5rem' }}>🌍</span><span>{t('chat-option-export')}</span></button>
+                    <button onClick={() => selectOption('other')} className="chat-option"><span style={{ fontSize: '1.3rem', marginRight: '0.5rem' }}>❓</span><span>{t('chat-option-other')}</span></button>
                   </div>
                 </>
               ) : (
                 <div style={{ textAlign: 'center' }}>
-                  <h4 style={{ color: 'var(--primary)', marginBottom: '1rem', fontSize: '1.2rem' }}>
-                    {chatResponse.title}
-                  </h4>
-                  <p style={{ marginBottom: '2rem', color: '#555', lineHeight: '1.6' }}>
-                    {chatResponse.text}
-                  </p>
+                  <h4 style={{ color: 'var(--primary)', marginBottom: '1rem', fontSize: '1.2rem' }}>{chatResponse.title}</h4>
+                  <p style={{ marginBottom: '2rem', color: '#555', lineHeight: '1.6' }}>{chatResponse.text}</p>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
                     <a 
                       href={`https://wa.me/5592992091329?text=${encodeURIComponent(chatResponse.whatsappMsg)}`}

@@ -35,15 +35,29 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 2rem;
+    padding: 0.7rem 2rem;
     flex-wrap: wrap;
 }
 
+/* ✅ ATUALIZADO: Logo com miniatura da imagem */
 .logo {
     font-size: 1.5rem;
     font-weight: bold;
     color: var(--primary);
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.logo-img {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 2px solid var(--accent);
+    box-shadow: 0 2px 8px rgba(255, 107, 53, 0.25);
+    flex-shrink: 0;
 }
 
 .logo span {
@@ -203,7 +217,7 @@ nav {
     border-left: 4px solid #f59e0b;
 }
 
-/* Hero Section - Background Fixo */
+/* Hero Section */
 .hero {
     color: var(--white);
     padding: 8rem 2rem 6rem;
@@ -329,6 +343,8 @@ nav {
 
 .service-card-content {
     padding: 2rem;
+    display: flex;
+    flex-direction: column;
 }
 
 .service-card h3 {
@@ -344,6 +360,7 @@ nav {
 .service-features {
     list-style: none;
     margin-top: 1.5rem;
+    flex: 1;
 }
 
 .service-features li {
@@ -358,6 +375,32 @@ nav {
     color: var(--accent);
     font-weight: bold;
     font-size: 1.2rem;
+}
+
+/* ✅ NOVO: Botão WhatsApp por serviço */
+.service-whatsapp-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    padding: 0.9rem 1.5rem;
+    background: #25D366;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1rem;
+    transition: all 0.3s;
+    border: 2px solid rgba(255,255,255,0.3);
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.35);
+}
+
+.service-whatsapp-btn:hover {
+    background: #1ebe5d;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(37, 211, 102, 0.5);
+    border-color: rgba(255,255,255,0.6);
 }
 
 /* Coverage Section */
@@ -389,6 +432,7 @@ nav {
     position: relative;
     z-index: 1;
     padding: 0 2rem;
+    align-items: stretch;
 }
 
 .coverage-info-enhanced {
@@ -524,10 +568,21 @@ nav {
 }
 
 .map-container-enhanced {
-    position: relative;
+    position: sticky;
+    top: 80px;
     border-radius: 15px;
     overflow: hidden;
     box-shadow: 0 15px 50px rgba(0,0,0,0.15);
+    align-self: flex-start;
+    height: 100%;
+    min-height: 600px;
+}
+
+.map-container-enhanced .leaflet-container {
+    height: 100% !important;
+    min-height: 600px;
+    width: 100%;
+    border-radius: 15px;
 }
 
 .map-container-enhanced::before {
@@ -813,6 +868,7 @@ footer {
     .coverage-content {
         grid-template-columns: 1fr 1.2fr;
         gap: 3rem;
+        align-items: stretch;
     }
     
     .branches-grid {
@@ -828,7 +884,16 @@ footer {
 
 @media (max-width: 768px) {
     nav {
-        padding: 1rem;
+        padding: 0.7rem 1rem;
+    }
+
+    .logo-img {
+        width: 36px;
+        height: 36px;
+    }
+
+    .logo {
+        font-size: 1.2rem;
     }
 
     .nav-links {
@@ -901,7 +966,6 @@ footer {
         display: none;
     }
 
-    /* Melhorias para modais no mobile */
     .modal-overlay {
         padding: 0.5rem;
         align-items: flex-start;
@@ -922,7 +986,6 @@ footer {
         max-width: 100%;
     }
 
-    /* Painel de funcionários - Mobile */
     .employee-panel-header {
         flex-direction: column;
         align-items: stretch;
@@ -945,20 +1008,18 @@ footer {
         white-space: nowrap;
     }
 
-    /* Formulários - Mobile */
     .delivery-form-grid {
         grid-template-columns: 1fr;
     }
 
     .tracking-input {
-        font-size: 16px; /* Previne zoom no iOS */
+        font-size: 16px;
     }
 
     select.tracking-input {
         font-size: 16px;
     }
 
-    /* Cards de entrega - Mobile */
     .delivery-card {
         padding: 1rem;
     }
@@ -982,7 +1043,6 @@ footer {
         font-size: 0.85rem;
     }
 
-    /* Modal close button - Mobile */
     .modal-close {
         top: 0.5rem;
         right: 0.5rem;
@@ -992,7 +1052,6 @@ footer {
         z-index: 10;
     }
 
-    /* Tracking result mobile */
     .tracking-result {
         font-size: 0.95rem;
     }
@@ -1000,6 +1059,11 @@ footer {
     .tracking-result p {
         margin-bottom: 0.5rem;
         line-height: 1.5;
+    }
+
+    .service-whatsapp-btn {
+        font-size: 0.9rem;
+        padding: 0.8rem 1.2rem;
     }
 }
 
@@ -1040,26 +1104,22 @@ footer {
         font-size: 0.95rem;
     }
 
-    /* Inputs e selects menores */
     .tracking-input,
     select.tracking-input {
         padding: 0.8rem;
-        font-size: 16px; /* Previne zoom no iOS */
+        font-size: 16px;
     }
 
-    /* Botões do painel de funcionários */
     .employee-panel-actions .btn {
         padding: 0.6rem 0.8rem;
         font-size: 0.85rem;
     }
 
-    /* Status badge */
     [style*="borderRadius: 20px"] {
         padding: 0.25rem 0.8rem !important;
         font-size: 0.8rem !important;
     }
 
-    /* Ajustes de espaçamento */
     .delivery-card p {
         font-size: 0.85rem;
         line-height: 1.4;
@@ -1069,18 +1129,15 @@ footer {
         font-size: 0.85rem;
     }
 
-    /* Formulário de nova entrega */
     .delivery-form-grid input,
     .delivery-form-grid select {
         margin-bottom: 0.5rem;
     }
 
-    /* Login de funcionário */
     .modal-content label {
         font-size: 0.95rem;
     }
 
-    /* Contact form mobile */
     .contact-form {
         padding: 1.5rem;
     }
@@ -1093,7 +1150,6 @@ footer {
         font-size: 1rem;
     }
 
-    /* WhatsApp CTA mobile */
     .whatsapp-cta h3 {
         font-size: 1.5rem;
     }
@@ -1107,7 +1163,6 @@ footer {
         font-size: 1rem;
     }
 
-    /* Language selector mobile */
     .language-selector {
         order: 3;
         width: 100%;
@@ -1117,6 +1172,15 @@ footer {
 
     .language-selector button {
         flex: 1;
+    }
+
+    .logo-img {
+        width: 32px;
+        height: 32px;
+    }
+
+    .logo {
+        font-size: 1.1rem;
     }
 }
 

@@ -122,6 +122,87 @@ nav {
     transition: all 0.3s;
 }
 
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    padding: 1rem;
+}
+
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    max-width: 600px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content.employee-panel {
+    max-width: 1200px;
+}
+
+.modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #666;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s;
+}
+
+.modal-close:hover {
+    background: #f0f0f0;
+    color: var(--accent);
+}
+
+.tracking-input {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+.tracking-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1);
+}
+
+.alert {
+    padding: 1rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+}
+
+.alert-warning {
+    background: #fef3c7;
+    color: #92400e;
+    border-left: 4px solid #f59e0b;
+}
+
 /* Hero Section - Background Fixo */
 .hero {
     color: var(--white);
@@ -279,24 +360,7 @@ nav {
     font-size: 1.2rem;
 }
 
-.service-badge {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: var(--accent);
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: bold;
-    z-index: 10;
-}
-
-/* ========================================
-   SEÇÃO DE LOCALIDADES - APRIMORADA
-   ======================================== */
-
-/* Container principal da seção de localidades */
+/* Coverage Section */
 .coverage-section {
     padding: 5rem 0;
     background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
@@ -327,14 +391,12 @@ nav {
     padding: 0 2rem;
 }
 
-/* Grid de informações de localidades melhorado */
 .coverage-info-enhanced {
     display: grid;
     grid-template-columns: 1fr;
     gap: 2rem;
 }
 
-/* Card da Matriz - Destaque especial */
 .location-card-enhanced.matriz-enhanced {
     background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
     color: white;
@@ -403,7 +465,6 @@ nav {
     margin: 0;
 }
 
-/* Grid de Filiais */
 .branches-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -462,7 +523,6 @@ nav {
     margin-top: 0.5rem;
 }
 
-/* Container do Mapa Aprimorado */
 .map-container-enhanced {
     position: relative;
     border-radius: 15px;
@@ -483,7 +543,6 @@ nav {
     z-index: 1000;
 }
 
-/* Customização do popup do Leaflet */
 .leaflet-popup-content-wrapper {
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
@@ -493,7 +552,6 @@ nav {
     margin: 1rem;
 }
 
-/* Animações adicionais */
 @keyframes slideInUp {
     from {
         opacity: 0;
@@ -699,6 +757,57 @@ footer {
     box-shadow: 0 2px 8px rgba(255, 107, 53, 0.2);
 }
 
+/* Estilos específicos para painel de funcionários */
+.employee-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.employee-panel-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.delivery-form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.delivery-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    border: 2px solid #e5e7eb;
+}
+
+.delivery-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.delivery-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+.delivery-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
 /* Mobile Responsive */
 @media (min-width: 768px) {
     .coverage-content {
@@ -733,6 +842,7 @@ footer {
         padding: 1rem;
         box-shadow: 0 5px 10px rgba(0,0,0,0.1);
         gap: 0.5rem;
+        z-index: 999;
     }
 
     .nav-links.active {
@@ -760,7 +870,6 @@ footer {
         grid-template-columns: 1fr;
     }
 
-    /* Localidades - Mobile */
     .coverage-section {
         padding: 3rem 0;
     }
@@ -791,6 +900,107 @@ footer {
     #chat-button span {
         display: none;
     }
+
+    /* Melhorias para modais no mobile */
+    .modal-overlay {
+        padding: 0.5rem;
+        align-items: flex-start;
+        overflow-y: auto;
+    }
+
+    .modal-content {
+        padding: 1.5rem;
+        max-height: none;
+        min-height: auto;
+        overflow-y: visible;
+        width: 100%;
+        margin: 1rem auto;
+    }
+
+    .modal-content.employee-panel {
+        padding: 1rem;
+        max-width: 100%;
+    }
+
+    /* Painel de funcionários - Mobile */
+    .employee-panel-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .employee-panel-header h2 {
+        font-size: 1.3rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .employee-panel-actions {
+        width: 100%;
+    }
+
+    .employee-panel-actions .btn {
+        flex: 1;
+        min-width: 0;
+        padding: 0.7rem 1rem;
+        font-size: 0.9rem;
+        white-space: nowrap;
+    }
+
+    /* Formulários - Mobile */
+    .delivery-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tracking-input {
+        font-size: 16px; /* Previne zoom no iOS */
+    }
+
+    select.tracking-input {
+        font-size: 16px;
+    }
+
+    /* Cards de entrega - Mobile */
+    .delivery-card {
+        padding: 1rem;
+    }
+
+    .delivery-header {
+        flex-direction: column;
+    }
+
+    .delivery-info-grid {
+        grid-template-columns: 1fr;
+        font-size: 0.9rem;
+    }
+
+    .delivery-actions {
+        width: 100%;
+    }
+
+    .delivery-actions .btn {
+        flex: 1;
+        padding: 0.6rem 0.8rem;
+        font-size: 0.85rem;
+    }
+
+    /* Modal close button - Mobile */
+    .modal-close {
+        top: 0.5rem;
+        right: 0.5rem;
+        width: 35px;
+        height: 35px;
+        font-size: 1.5rem;
+        z-index: 10;
+    }
+
+    /* Tracking result mobile */
+    .tracking-result {
+        font-size: 0.95rem;
+    }
+
+    .tracking-result p {
+        margin-bottom: 0.5rem;
+        line-height: 1.5;
+    }
 }
 
 @media (max-width: 480px) {
@@ -810,5 +1020,143 @@ footer {
     .btn {
         padding: 0.8rem 1.5rem;
         font-size: 1rem;
+    }
+
+    .modal-content {
+        padding: 1rem;
+        border-radius: 10px;
+    }
+
+    .modal-content h2 {
+        font-size: 1.2rem;
+        padding-right: 2rem;
+    }
+
+    .modal-content h3 {
+        font-size: 1.1rem;
+    }
+
+    .modal-content p {
+        font-size: 0.95rem;
+    }
+
+    /* Inputs e selects menores */
+    .tracking-input,
+    select.tracking-input {
+        padding: 0.8rem;
+        font-size: 16px; /* Previne zoom no iOS */
+    }
+
+    /* Botões do painel de funcionários */
+    .employee-panel-actions .btn {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.85rem;
+    }
+
+    /* Status badge */
+    [style*="borderRadius: 20px"] {
+        padding: 0.25rem 0.8rem !important;
+        font-size: 0.8rem !important;
+    }
+
+    /* Ajustes de espaçamento */
+    .delivery-card p {
+        font-size: 0.85rem;
+        line-height: 1.4;
+    }
+
+    .delivery-card strong {
+        font-size: 0.85rem;
+    }
+
+    /* Formulário de nova entrega */
+    .delivery-form-grid input,
+    .delivery-form-grid select {
+        margin-bottom: 0.5rem;
+    }
+
+    /* Login de funcionário */
+    .modal-content label {
+        font-size: 0.95rem;
+    }
+
+    /* Contact form mobile */
+    .contact-form {
+        padding: 1.5rem;
+    }
+
+    .contact-form h3 {
+        font-size: 1.4rem;
+    }
+
+    .contact-form p {
+        font-size: 1rem;
+    }
+
+    /* WhatsApp CTA mobile */
+    .whatsapp-cta h3 {
+        font-size: 1.5rem;
+    }
+
+    .whatsapp-cta p {
+        font-size: 1rem;
+    }
+
+    .btn-whatsapp {
+        padding: 1rem 2rem;
+        font-size: 1rem;
+    }
+
+    /* Language selector mobile */
+    .language-selector {
+        order: 3;
+        width: 100%;
+        margin-top: 0.5rem;
+        justify-content: center;
+    }
+
+    .language-selector button {
+        flex: 1;
+    }
+}
+
+/* Extra small devices */
+@media (max-width: 360px) {
+    .modal-content {
+        padding: 0.8rem;
+    }
+
+    .employee-panel-header h2 {
+        font-size: 1.1rem;
+    }
+
+    .delivery-card {
+        padding: 0.8rem;
+    }
+
+    .btn {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.9rem;
+    }
+
+    .tracking-input {
+        padding: 0.7rem;
+    }
+}
+
+/* Landscape mobile fixes */
+@media (max-height: 600px) and (orientation: landscape) {
+    .modal-overlay {
+        align-items: flex-start;
+    }
+
+    .modal-content {
+        margin: 1rem auto;
+        max-height: none;
+    }
+
+    .hero {
+        min-height: auto;
+        padding: 4rem 1rem 3rem;
     }
 }
