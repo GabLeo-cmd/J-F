@@ -35,33 +35,36 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.7rem 2rem;
+    /* ✅ Topo reduzido: de 0.7rem para 0.35rem */
+    padding: 0.35rem 2rem;
     flex-wrap: wrap;
 }
 
-/* ✅ ATUALIZADO: Logo com miniatura da imagem */
+/* ✅ Logo maior, texto todo na mesma cor (var(--primary)) */
 .logo {
-    font-size: 1.5rem;
+    font-size: 1.35rem;
     font-weight: bold;
     color: var(--primary);
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 0.6rem;
+    gap: 0.7rem;
 }
 
+/* ✅ Logo image aumentada: de 44px para 62px */
 .logo-img {
-    width: 44px;
-    height: 44px;
-    border-radius: 8px;
+    width: 62px;
+    height: 62px;
+    border-radius: 10px;
     object-fit: cover;
     border: 2px solid var(--accent);
     box-shadow: 0 2px 8px rgba(255, 107, 53, 0.25);
     flex-shrink: 0;
 }
 
+/* ✅ Sem span de cor diferente — toda a frase fica em var(--primary) */
 .logo span {
-    color: var(--accent);
+    color: var(--primary);
 }
 
 .nav-links {
@@ -86,21 +89,23 @@ nav {
 }
 
 .nav-links a.active {
-    color: var(--white);
-    background: var(--accent);
+    color: var(--primary);
+    background: transparent;
+    font-weight: 700;
 }
 
+/* ✅ Seletor de idiomas menor */
 .language-selector {
     display: flex;
-    gap: 0.5rem;
+    gap: 0.25rem;
     align-items: center;
     background: var(--light);
-    padding: 0.3rem;
+    padding: 0.2rem;
     border-radius: 5px;
 }
 
 .language-selector button {
-    padding: 0.4rem 0.8rem;
+    padding: 0.25rem 0.55rem;
     border: none;
     background: transparent;
     color: var(--dark);
@@ -108,7 +113,7 @@ nav {
     cursor: pointer;
     border-radius: 3px;
     transition: all 0.3s;
-    font-size: 0.9rem;
+    font-size: 0.78rem;
 }
 
 .language-selector button:hover {
@@ -161,10 +166,6 @@ nav {
     overflow-y: auto;
     position: relative;
     box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3);
-}
-
-.modal-content.employee-panel {
-    max-width: 1200px;
 }
 
 .modal-close {
@@ -377,7 +378,6 @@ nav {
     font-size: 1.2rem;
 }
 
-/* ✅ NOVO: Botão WhatsApp por serviço */
 .service-whatsapp-btn {
     display: inline-flex;
     align-items: center;
@@ -707,9 +707,22 @@ nav {
 
 /* Footer */
 footer {
-    background: var(--dark);
     color: var(--white);
     padding: 3rem 2rem 1rem;
+    position: relative;
+}
+
+footer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 20, 60, 0.72);
+    z-index: 0;
+}
+
+footer > * {
+    position: relative;
+    z-index: 1;
 }
 
 .footer-content {
@@ -812,57 +825,6 @@ footer {
     box-shadow: 0 2px 8px rgba(255, 107, 53, 0.2);
 }
 
-/* Estilos específicos para painel de funcionários */
-.employee-panel-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
-    gap: 1rem;
-}
-
-.employee-panel-actions {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-}
-
-.delivery-form-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1rem;
-}
-
-.delivery-card {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 10px;
-    border: 2px solid #e5e7eb;
-}
-
-.delivery-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: start;
-    margin-bottom: 1rem;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-}
-
-.delivery-info-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 0.8rem;
-    margin-bottom: 1rem;
-}
-
-.delivery-actions {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-}
-
 /* Mobile Responsive */
 @media (min-width: 768px) {
     .coverage-content {
@@ -884,16 +846,16 @@ footer {
 
 @media (max-width: 768px) {
     nav {
-        padding: 0.7rem 1rem;
+        padding: 0.35rem 1rem;
     }
 
     .logo-img {
-        width: 36px;
-        height: 36px;
+        width: 50px;
+        height: 50px;
     }
 
     .logo {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
     }
 
     .nav-links {
@@ -981,75 +943,8 @@ footer {
         margin: 1rem auto;
     }
 
-    .modal-content.employee-panel {
-        padding: 1rem;
-        max-width: 100%;
-    }
-
-    .employee-panel-header {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .employee-panel-header h2 {
-        font-size: 1.3rem;
-        margin-bottom: 0.5rem;
-    }
-
-    .employee-panel-actions {
-        width: 100%;
-    }
-
-    .employee-panel-actions .btn {
-        flex: 1;
-        min-width: 0;
-        padding: 0.7rem 1rem;
-        font-size: 0.9rem;
-        white-space: nowrap;
-    }
-
-    .delivery-form-grid {
-        grid-template-columns: 1fr;
-    }
-
     .tracking-input {
         font-size: 16px;
-    }
-
-    select.tracking-input {
-        font-size: 16px;
-    }
-
-    .delivery-card {
-        padding: 1rem;
-    }
-
-    .delivery-header {
-        flex-direction: column;
-    }
-
-    .delivery-info-grid {
-        grid-template-columns: 1fr;
-        font-size: 0.9rem;
-    }
-
-    .delivery-actions {
-        width: 100%;
-    }
-
-    .delivery-actions .btn {
-        flex: 1;
-        padding: 0.6rem 0.8rem;
-        font-size: 0.85rem;
-    }
-
-    .modal-close {
-        top: 0.5rem;
-        right: 0.5rem;
-        width: 35px;
-        height: 35px;
-        font-size: 1.5rem;
-        z-index: 10;
     }
 
     .tracking-result {
@@ -1104,38 +999,18 @@ footer {
         font-size: 0.95rem;
     }
 
-    .tracking-input,
-    select.tracking-input {
+    .tracking-input {
         padding: 0.8rem;
         font-size: 16px;
     }
 
-    .employee-panel-actions .btn {
-        padding: 0.6rem 0.8rem;
-        font-size: 0.85rem;
-    }
-
-    [style*="borderRadius: 20px"] {
-        padding: 0.25rem 0.8rem !important;
-        font-size: 0.8rem !important;
-    }
-
-    .delivery-card p {
-        font-size: 0.85rem;
-        line-height: 1.4;
-    }
-
-    .delivery-card strong {
-        font-size: 0.85rem;
-    }
-
-    .delivery-form-grid input,
-    .delivery-form-grid select {
-        margin-bottom: 0.5rem;
-    }
-
-    .modal-content label {
-        font-size: 0.95rem;
+    .modal-close {
+        top: 0.5rem;
+        right: 0.5rem;
+        width: 35px;
+        height: 35px;
+        font-size: 1.5rem;
+        z-index: 10;
     }
 
     .contact-form {
@@ -1175,26 +1050,18 @@ footer {
     }
 
     .logo-img {
-        width: 32px;
-        height: 32px;
+        width: 44px;
+        height: 44px;
     }
 
     .logo {
-        font-size: 1.1rem;
+        font-size: 1rem;
     }
 }
 
 /* Extra small devices */
 @media (max-width: 360px) {
     .modal-content {
-        padding: 0.8rem;
-    }
-
-    .employee-panel-header h2 {
-        font-size: 1.1rem;
-    }
-
-    .delivery-card {
         padding: 0.8rem;
     }
 

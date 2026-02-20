@@ -44,72 +44,9 @@ function App() {
   const [chatOpen, setChatOpen] = useState(false);
   const [chatResponse, setChatResponse] = useState(null);
   
-  // Estados para o sistema de rastreamento
-  const [showTracking, setShowTracking] = useState(false);
-  const [trackingDocument, setTrackingDocument] = useState('');
-  const [trackingResult, setTrackingResult] = useState(null);
-  
-  // Estados para o sistema de login de funcionários
-  const [showEmployeeLogin, setShowEmployeeLogin] = useState(false);
-  const [isEmployeeLoggedIn, setIsEmployeeLoggedIn] = useState(false);
-  const [employeeUsername, setEmployeeUsername] = useState('');
-  const [employeePassword, setEmployeePassword] = useState('');
-  const [showEmployeePanel, setShowEmployeePanel] = useState(false);
-  
-  // Estados para gerenciamento de entregas (funcionários)
-  const [deliveries, setDeliveries] = useState([
-    {
-      id: 1,
-      document: '12345678900',
-      customerName: 'João Silva',
-      product: 'Carga Geral - 500kg',
-      origin: 'Manaus/AM',
-      destination: 'São Paulo/SP',
-      status: 'Em Trânsito',
-      currentLocation: 'Goiânia/GO',
-      estimatedDelivery: '15/02/2026',
-      lastUpdate: '10/02/2026 14:30'
-    },
-    {
-      id: 2,
-      document: '98765432100',
-      customerName: 'Maria Santos',
-      product: 'Commodities - 2 toneladas',
-      origin: 'Manaus/AM',
-      destination: 'Boa Vista/RR',
-      status: 'Entregue',
-      currentLocation: 'Boa Vista/RR',
-      estimatedDelivery: '08/02/2026',
-      lastUpdate: '08/02/2026 16:45'
-    },
-    {
-      id: 3,
-      document: '12345678000190',
-      customerName: 'Empresa ABC Ltda',
-      product: 'Equipamentos - 1.5 toneladas',
-      origin: 'São Luís/MA',
-      destination: 'Cuiabá/MT',
-      status: 'Aguardando Coleta',
-      currentLocation: 'São Luís/MA',
-      estimatedDelivery: '18/02/2026',
-      lastUpdate: '10/02/2026 09:15'
-    }
-  ]);
-  
-  const [newDelivery, setNewDelivery] = useState({
-    document: '',
-    customerName: '',
-    product: '',
-    origin: '',
-    destination: '',
-    status: 'Aguardando Coleta',
-    currentLocation: '',
-    estimatedDelivery: ''
-  });
-  
-  const [editingDelivery, setEditingDelivery] = useState(null);
 
-  // Localização das filiais — cidades atualizadas
+
+  // Localização das filiais
   const locations = [
     { name: 'Matriz - Manaus', coords: [-3.1190, -60.0217], type: 'matriz', state: 'Amazonas' },
     { name: 'Filial - Pacaraima / Santa Elena VNZ', coords: [4.4862, -61.1358], type: 'filial', state: 'Roraima' },
@@ -119,10 +56,6 @@ function App() {
   ];
 
   // WhatsApp numbers e messages por serviço
-  // service1 = Transporte RodoFluvial       → +55 92 99209-1329
-  // service2 = Distribuição de Cargas       → +55 92 9191-0173
-  // service3 = Armazenagem & Logística      → +55 92 9466-7456
-  // service4 = Exportação & Comércio Ext.   → +55 92 99209-1329
   const serviceWhatsApp = {
     service1: { number: '5592992091329', msg: 'Olá! Tenho interesse no serviço de *Transporte RodoFluvial* da JF Organização Trading. Podem me passar mais informações?' },
     service2: { number: '559291910173',  msg: 'Olá! Tenho interesse no serviço de *Distribuição de Cargas* da JF Organização Trading. Podem me passar mais informações?' },
@@ -130,7 +63,6 @@ function App() {
     service4: { number: '5592992091329', msg: 'Olá! Tenho interesse no serviço de *Exportação & Comércio Exterior* da JF Organização Trading. Podem me passar mais informações?' },
   };
 
-  // Helper para montar link WhatsApp
   const waLink = (service) =>
     `https://wa.me/${serviceWhatsApp[service].number}?text=${encodeURIComponent(serviceWhatsApp[service].msg)}`;
 
@@ -138,53 +70,11 @@ function App() {
     pt: {
       'nav-home': 'Início',
       'nav-services': 'Serviços',
-      'nav-tracking': 'Rastrear Entrega',
-      'nav-employee': 'Área do Funcionário',
       'nav-coverage': 'Localidade',
       'nav-about': 'Sobre',
       'nav-contact': 'Contato',
       'hero-title': 'Transporte, Logística & Exportação',
       'hero-subtitle': 'Soluções Completas Em Transporte RodoFluvial, Armazenagem E Operações De Exportação Para Sua Empresa',
-      'btn-services': 'Nossos Serviços',
-      'tracking-title': 'Rastrear Minha Entrega',
-      'tracking-subtitle': 'Digite seu CPF ou CNPJ para acompanhar sua entrega',
-      'tracking-placeholder': 'Digite seu CPF ou CNPJ',
-      'tracking-button': 'Buscar Entrega',
-      'tracking-not-found': 'Nenhuma entrega encontrada para este documento.',
-      'employee-login-title': 'Login de Funcionário',
-      'employee-username': 'Usuário',
-      'employee-password': 'Senha',
-      'employee-login-button': 'Entrar',
-      'employee-logout-button': 'Sair',
-      'employee-panel-title': 'Painel de Gerenciamento de Entregas',
-      'employee-add-delivery': 'Adicionar Nova Entrega',
-      'employee-deliveries-list': 'Entregas Cadastradas',
-      'employee-minimize': 'Minimizar',
-      'employee-editing': 'Editando Entrega',
-      'employee-save': 'Salvar',
-      'employee-cancel': 'Cancelar',
-      'employee-edit': 'Editar',
-      'employee-delete': 'Excluir',
-      'employee-confirm-delete': 'Tem certeza que deseja excluir esta entrega?',
-      'employee-add-button': 'Adicionar Entrega',
-      'employee-credentials': 'Credenciais de teste: admin / jf2026',
-      'employee-product': 'Produto',
-      'employee-origin': 'Origem',
-      'employee-destination': 'Destino',
-      'employee-location': 'Localização',
-      'employee-forecast': 'Previsão',
-      'employee-updated': 'Atualizado',
-      'employee-status': 'Status',
-      'employee-status-waiting': 'Aguardando Coleta',
-      'employee-status-transit': 'Em Trânsito',
-      'employee-status-delivered': 'Entregue',
-      'placeholder-document': 'CPF/CNPJ (apenas números)',
-      'placeholder-customer': 'Nome do Cliente',
-      'placeholder-product': 'Produto',
-      'placeholder-origin': 'Origem',
-      'placeholder-destination': 'Destino',
-      'placeholder-location': 'Localização Atual',
-      'placeholder-forecast': 'Previsão Entrega (DD/MM/AAAA)',
       'services-title': 'Nossas Especialidades',
       'services-subtitle': 'Oferecemos soluções completas e integradas para atender todas as necessidades logísticas da sua empresa',
       'service-cta': 'Falar com especialista',
@@ -272,53 +162,11 @@ function App() {
     en: {
       'nav-home': 'Home',
       'nav-services': 'Services',
-      'nav-tracking': 'Track Delivery',
-      'nav-employee': 'Employee Area',
       'nav-coverage': 'Locations',
       'nav-about': 'About',
       'nav-contact': 'Contact',
       'hero-title': 'Transport, Logistics & Export',
       'hero-subtitle': 'Complete Solutions In River-Road Transport, Warehousing And Export Operations For Your Company',
-      'btn-services': 'Our Services',
-      'tracking-title': 'Track My Delivery',
-      'tracking-subtitle': 'Enter your CPF or CNPJ to track your delivery',
-      'tracking-placeholder': 'Enter your CPF or CNPJ',
-      'tracking-button': 'Search Delivery',
-      'tracking-not-found': 'No delivery found for this document.',
-      'employee-login-title': 'Employee Login',
-      'employee-username': 'Username',
-      'employee-password': 'Password',
-      'employee-login-button': 'Login',
-      'employee-logout-button': 'Logout',
-      'employee-panel-title': 'Delivery Management Panel',
-      'employee-add-delivery': 'Add New Delivery',
-      'employee-deliveries-list': 'Registered Deliveries',
-      'employee-minimize': 'Minimize',
-      'employee-editing': 'Editing Delivery',
-      'employee-save': 'Save',
-      'employee-cancel': 'Cancel',
-      'employee-edit': 'Edit',
-      'employee-delete': 'Delete',
-      'employee-confirm-delete': 'Are you sure you want to delete this delivery?',
-      'employee-add-button': 'Add Delivery',
-      'employee-credentials': 'Test credentials: admin / jf2026',
-      'employee-product': 'Product',
-      'employee-origin': 'Origin',
-      'employee-destination': 'Destination',
-      'employee-location': 'Location',
-      'employee-forecast': 'Forecast',
-      'employee-updated': 'Updated',
-      'employee-status': 'Status',
-      'employee-status-waiting': 'Awaiting Pickup',
-      'employee-status-transit': 'In Transit',
-      'employee-status-delivered': 'Delivered',
-      'placeholder-document': 'CPF/CNPJ (numbers only)',
-      'placeholder-customer': 'Customer Name',
-      'placeholder-product': 'Product',
-      'placeholder-origin': 'Origin',
-      'placeholder-destination': 'Destination',
-      'placeholder-location': 'Current Location',
-      'placeholder-forecast': 'Delivery Forecast (MM/DD/YYYY)',
       'services-title': 'Our Specialties',
       'services-subtitle': 'We offer complete and integrated solutions to meet all your company\'s logistics needs',
       'service-cta': 'Talk to a specialist',
@@ -406,53 +254,11 @@ function App() {
     es: {
       'nav-home': 'Inicio',
       'nav-services': 'Servicios',
-      'nav-tracking': 'Rastrear Entrega',
-      'nav-employee': 'Área del Empleado',
       'nav-coverage': 'Localidades',
       'nav-about': 'Sobre',
       'nav-contact': 'Contacto',
       'hero-title': 'Transporte, Logística y Exportación',
       'hero-subtitle': 'Soluciones Completas En Transporte RodoFluvial, Almacenamiento Y Operaciones De Exportación Para Su Empresa',
-      'btn-services': 'Nuestros Servicios',
-      'tracking-title': 'Rastrear Mi Entrega',
-      'tracking-subtitle': 'Ingrese su CPF o CNPJ para rastrear su entrega',
-      'tracking-placeholder': 'Ingrese su CPF o CNPJ',
-      'tracking-button': 'Buscar Entrega',
-      'tracking-not-found': 'No se encontró ninguna entrega para este documento.',
-      'employee-login-title': 'Inicio de Sesión de Empleado',
-      'employee-username': 'Usuario',
-      'employee-password': 'Contraseña',
-      'employee-login-button': 'Entrar',
-      'employee-logout-button': 'Salir',
-      'employee-panel-title': 'Panel de Gestión de Entregas',
-      'employee-add-delivery': 'Agregar Nueva Entrega',
-      'employee-deliveries-list': 'Entregas Registradas',
-      'employee-minimize': 'Minimizar',
-      'employee-editing': 'Editando Entrega',
-      'employee-save': 'Guardar',
-      'employee-cancel': 'Cancelar',
-      'employee-edit': 'Editar',
-      'employee-delete': 'Eliminar',
-      'employee-confirm-delete': '¿Está seguro de que desea eliminar esta entrega?',
-      'employee-add-button': 'Agregar Entrega',
-      'employee-credentials': 'Credenciales de prueba: admin / jf2026',
-      'employee-product': 'Producto',
-      'employee-origin': 'Origen',
-      'employee-destination': 'Destino',
-      'employee-location': 'Ubicación',
-      'employee-forecast': 'Previsión',
-      'employee-updated': 'Actualizado',
-      'employee-status': 'Estado',
-      'employee-status-waiting': 'Esperando Recogida',
-      'employee-status-transit': 'En Tránsito',
-      'employee-status-delivered': 'Entregado',
-      'placeholder-document': 'CPF/CNPJ (solo números)',
-      'placeholder-customer': 'Nombre del Cliente',
-      'placeholder-product': 'Producto',
-      'placeholder-origin': 'Origen',
-      'placeholder-destination': 'Destino',
-      'placeholder-location': 'Ubicación Actual',
-      'placeholder-forecast': 'Previsión Entrega (DD/MM/AAAA)',
       'services-title': 'Nuestras Especialidades',
       'services-subtitle': 'Ofrecemos soluciones completas e integradas para atender todas las necesidades logísticas de su empresa',
       'service-cta': 'Hablar con especialista',
@@ -540,78 +346,7 @@ function App() {
   };
 
   const t = (key) => translations[currentLang][key] || key;
-  
-  // Traduzir status de entrega
-  const translateStatus = (status) => {
-    const statusMap = {
-      'Aguardando Coleta': t('employee-status-waiting'),
-      'Em Trânsito': t('employee-status-transit'),
-      'Entregue': t('employee-status-delivered')
-    };
-    return statusMap[status] || status;
-  };
 
-  // Função de rastreamento
-  const handleTracking = (e) => {
-    e.preventDefault();
-    const cleanDocument = trackingDocument.replace(/\D/g, '');
-    const found = deliveries.find(d => d.document === cleanDocument);
-    setTrackingResult(found || 'not-found');
-  };
-
-  // Função de login de funcionário
-  const handleEmployeeLogin = (e) => {
-    e.preventDefault();
-    if (employeeUsername === 'admin' && employeePassword === 'jf2026') {
-      setIsEmployeeLoggedIn(true);
-      setShowEmployeeLogin(false);
-      setShowEmployeePanel(true);
-      setEmployeeUsername('');
-      setEmployeePassword('');
-    } else {
-      alert(currentLang === 'pt' ? 'Usuário ou senha incorretos!' : currentLang === 'en' ? 'Incorrect username or password!' : '¡Usuario o contraseña incorrectos!');
-    }
-  };
-
-  // Função para adicionar nova entrega
-  const handleAddDelivery = (e) => {
-    e.preventDefault();
-    const newId = deliveries.length > 0 ? Math.max(...deliveries.map(d => d.id)) + 1 : 1;
-    const now = new Date().toLocaleString('pt-BR');
-    setDeliveries([...deliveries, {
-      ...newDelivery,
-      id: newId,
-      lastUpdate: now
-    }]);
-    setNewDelivery({
-      document: '',
-      customerName: '',
-      product: '',
-      origin: '',
-      destination: '',
-      status: 'Aguardando Coleta',
-      currentLocation: '',
-      estimatedDelivery: ''
-    });
-  };
-
-  // Função para atualizar entrega
-  const handleUpdateDelivery = (id) => {
-    const now = new Date().toLocaleString('pt-BR');
-    setDeliveries(deliveries.map(d => 
-      d.id === id ? { ...editingDelivery, lastUpdate: now } : d
-    ));
-    setEditingDelivery(null);
-  };
-
-  // Função para deletar entrega
-  const handleDeleteDelivery = (id) => {
-    if (window.confirm(t('employee-confirm-delete'))) {
-      setDeliveries(deliveries.filter(d => d.id !== id));
-    }
-  };
-
-  // ✅ ATUALIZADO: scrollToServices vai para a seção de serviços
   const scrollToServices = () => {
     const section = document.getElementById('servicos');
     if (section) {
@@ -711,23 +446,14 @@ function App() {
     setChatResponse(null);
   };
 
-  const getStatusColor = (status) => {
-    switch(status) {
-      case 'Entregue': return '#22c55e';
-      case 'Em Trânsito': return '#3b82f6';
-      case 'Aguardando Coleta': return '#f59e0b';
-      default: return '#6b7280';
-    }
-  };
-
   return (
     <div className="App">
       <header>
         <nav>
-          {/* ✅ ATUALIZADO: Logo com miniatura da imagem */}
+          {/* Logo — texto todo na mesma cor (var(--primary)) */}
           <div className="logo" onClick={scrollToTop}>
             <img src={logoImage} alt="JF Organização Trading" className="logo-img" />
-            JF <span>Organização Trading</span>
+            JF Organização Trading
           </div>
           <div className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
             <span></span>
@@ -736,33 +462,9 @@ function App() {
           </div>
           <ul className={`nav-links ${menuOpen ? 'active' : ''}`}>
             <li><a onClick={scrollToTop} className="active">{t('nav-home')}</a></li>
-            {/* ✅ ATUALIZADO: Navega para seção de serviços em vez de WhatsApp */}
             <li>
               <a onClick={scrollToServices}>
                 {t('nav-services')}
-              </a>
-            </li>
-            <li>
-              <a onClick={() => {
-                setShowTracking(true);
-                setShowEmployeePanel(false);
-                setMenuOpen(false);
-              }}>
-                {t('nav-tracking')}
-              </a>
-            </li>
-            <li>
-              <a onClick={() => {
-                if (!isEmployeeLoggedIn) {
-                  setShowEmployeeLogin(true);
-                  setShowTracking(false);
-                } else {
-                  setShowEmployeePanel(true);
-                  setShowTracking(false);
-                }
-                setMenuOpen(false);
-              }}>
-                {t('nav-employee')}
               </a>
             </li>
             <li><a onClick={() => scrollToSection('abrangencia')}>{t('nav-coverage')}</a></li>
@@ -792,236 +494,6 @@ function App() {
         </nav>
       </header>
 
-      {/* Modal de Rastreamento */}
-      {showTracking && (
-        <div className="modal-overlay" onClick={() => {
-          setShowTracking(false);
-          setTrackingResult(null);
-          setTrackingDocument('');
-        }}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close" onClick={() => {
-              setShowTracking(false);
-              setTrackingResult(null);
-              setTrackingDocument('');
-            }}>×</button>
-            
-            <h2 style={{ color: 'var(--primary)', marginBottom: '1rem' }}>
-              {t('tracking-title')}
-            </h2>
-            <p style={{ color: '#666', marginBottom: '2rem' }}>
-              {t('tracking-subtitle')}
-            </p>
-
-            <form onSubmit={handleTracking} style={{ marginBottom: '2rem' }}>
-              <input
-                type="text"
-                value={trackingDocument}
-                onChange={(e) => setTrackingDocument(e.target.value)}
-                placeholder={t('tracking-placeholder')}
-                className="tracking-input"
-                required
-              />
-              <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '1rem' }}>
-                🔍 {t('tracking-button')}
-              </button>
-            </form>
-
-            {trackingResult === 'not-found' && (
-              <div className="alert alert-warning">
-                ⚠️ {t('tracking-not-found')}
-              </div>
-            )}
-
-            {trackingResult && trackingResult !== 'not-found' && (
-              <div className="tracking-result">
-                <div style={{ background: '#f8f9fa', padding: '1.5rem', borderRadius: '10px', marginBottom: '1rem' }}>
-                  <h3 style={{ color: 'var(--primary)', marginBottom: '1rem' }}>
-                    📦 {trackingResult.customerName}
-                  </h3>
-                  <div style={{ display: 'grid', gap: '0.8rem' }}>
-                    <p><strong>{t('employee-product')}:</strong> {trackingResult.product}</p>
-                    <p><strong>{t('employee-origin')}:</strong> {trackingResult.origin}</p>
-                    <p><strong>{t('employee-destination')}:</strong> {trackingResult.destination}</p>
-                    <p>
-                      <strong>{t('employee-status')}:</strong>{' '}
-                      <span style={{ 
-                        color: getStatusColor(trackingResult.status),
-                        fontWeight: 'bold'
-                      }}>
-                        {translateStatus(trackingResult.status)}
-                      </span>
-                    </p>
-                    <p><strong>{t('employee-location')}:</strong> {trackingResult.currentLocation}</p>
-                    <p><strong>{t('employee-forecast')}:</strong> {trackingResult.estimatedDelivery}</p>
-                    <p style={{ fontSize: '0.9rem', color: '#666' }}>
-                      <em>{t('employee-updated')}: {trackingResult.lastUpdate}</em>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* Modal de Login de Funcionário */}
-      {showEmployeeLogin && !isEmployeeLoggedIn && (
-        <div className="modal-overlay" onClick={() => setShowEmployeeLogin(false)}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '400px' }}>
-            <button className="modal-close" onClick={() => setShowEmployeeLogin(false)}>×</button>
-            
-            <h2 style={{ color: 'var(--primary)', marginBottom: '2rem', textAlign: 'center' }}>
-              🔐 {t('employee-login-title')}
-            </h2>
-
-            <form onSubmit={handleEmployeeLogin}>
-              <div style={{ marginBottom: '1rem' }}>
-                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>
-                  {t('employee-username')}
-                </label>
-                <input
-                  type="text"
-                  value={employeeUsername}
-                  onChange={(e) => setEmployeeUsername(e.target.value)}
-                  className="tracking-input"
-                  required
-                />
-              </div>
-              <div style={{ marginBottom: '1.5rem' }}>
-                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '600' }}>
-                  {t('employee-password')}
-                </label>
-                <input
-                  type="password"
-                  value={employeePassword}
-                  onChange={(e) => setEmployeePassword(e.target.value)}
-                  className="tracking-input"
-                  required
-                />
-              </div>
-              <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>
-                {t('employee-login-button')}
-              </button>
-            </form>
-            
-            <p style={{ marginTop: '1rem', fontSize: '0.85rem', color: '#666', textAlign: 'center' }}>
-              {t('employee-credentials')}
-            </p>
-          </div>
-        </div>
-      )}
-
-      {/* Painel de Gerenciamento de Funcionário */}
-      {showEmployeePanel && isEmployeeLoggedIn && (
-        <div className="modal-overlay">
-          <div className="modal-content employee-panel" onClick={(e) => e.stopPropagation()}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
-              <h2 style={{ color: 'var(--primary)', margin: 0 }}>
-                📊 {t('employee-panel-title')}
-              </h2>
-              <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-                <button 
-                  className="btn btn-secondary"
-                  onClick={() => setShowEmployeePanel(false)}
-                >
-                  {t('employee-minimize')}
-                </button>
-                <button 
-                  className="btn btn-primary"
-                  onClick={() => {
-                    setIsEmployeeLoggedIn(false);
-                    setShowEmployeePanel(false);
-                  }}
-                >
-                  {t('employee-logout-button')}
-                </button>
-              </div>
-            </div>
-
-            {/* Formulário de Nova Entrega */}
-            <div style={{ background: '#f8f9fa', padding: '1.5rem', borderRadius: '10px', marginBottom: '2rem' }}>
-              <h3 style={{ marginBottom: '1rem' }}>➕ {t('employee-add-delivery')}</h3>
-              <form onSubmit={handleAddDelivery}>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1rem' }}>
-                  <input type="text" placeholder={t('placeholder-document')} value={newDelivery.document} onChange={(e) => setNewDelivery({...newDelivery, document: e.target.value})} className="tracking-input" required />
-                  <input type="text" placeholder={t('placeholder-customer')} value={newDelivery.customerName} onChange={(e) => setNewDelivery({...newDelivery, customerName: e.target.value})} className="tracking-input" required />
-                  <input type="text" placeholder={t('placeholder-product')} value={newDelivery.product} onChange={(e) => setNewDelivery({...newDelivery, product: e.target.value})} className="tracking-input" required />
-                  <input type="text" placeholder={t('placeholder-origin')} value={newDelivery.origin} onChange={(e) => setNewDelivery({...newDelivery, origin: e.target.value})} className="tracking-input" required />
-                  <input type="text" placeholder={t('placeholder-destination')} value={newDelivery.destination} onChange={(e) => setNewDelivery({...newDelivery, destination: e.target.value})} className="tracking-input" required />
-                  <input type="text" placeholder={t('placeholder-location')} value={newDelivery.currentLocation} onChange={(e) => setNewDelivery({...newDelivery, currentLocation: e.target.value})} className="tracking-input" required />
-                  <select value={newDelivery.status} onChange={(e) => setNewDelivery({...newDelivery, status: e.target.value})} className="tracking-input" required>
-                    <option value="Aguardando Coleta">{t('employee-status-waiting')}</option>
-                    <option value="Em Trânsito">{t('employee-status-transit')}</option>
-                    <option value="Entregue">{t('employee-status-delivered')}</option>
-                  </select>
-                  <input type="text" placeholder={t('placeholder-forecast')} value={newDelivery.estimatedDelivery} onChange={(e) => setNewDelivery({...newDelivery, estimatedDelivery: e.target.value})} className="tracking-input" required />
-                </div>
-                <button type="submit" className="btn btn-primary" style={{ marginTop: '1rem' }}>
-                  ✅ {t('employee-add-button')}
-                </button>
-              </form>
-            </div>
-
-            {/* Lista de Entregas */}
-            <div>
-              <h3 style={{ marginBottom: '1rem' }}>📋 {t('employee-deliveries-list')} ({deliveries.length})</h3>
-              <div style={{ display: 'grid', gap: '1rem' }}>
-                {deliveries.map(delivery => (
-                  <div key={delivery.id} style={{ background: 'white', padding: '1.5rem', borderRadius: '10px', border: '2px solid #e5e7eb' }}>
-                    {editingDelivery?.id === delivery.id ? (
-                      <div>
-                        <h4 style={{ marginBottom: '1rem', color: 'var(--primary)' }}>✏️ {t('employee-editing')} #{delivery.id}</h4>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
-                          <input type="text" value={editingDelivery.document} onChange={(e) => setEditingDelivery({...editingDelivery, document: e.target.value})} className="tracking-input" placeholder="CPF/CNPJ" />
-                          <input type="text" value={editingDelivery.customerName} onChange={(e) => setEditingDelivery({...editingDelivery, customerName: e.target.value})} className="tracking-input" placeholder={t('placeholder-customer')} />
-                          <input type="text" value={editingDelivery.product} onChange={(e) => setEditingDelivery({...editingDelivery, product: e.target.value})} className="tracking-input" placeholder={t('placeholder-product')} />
-                          <input type="text" value={editingDelivery.currentLocation} onChange={(e) => setEditingDelivery({...editingDelivery, currentLocation: e.target.value})} className="tracking-input" placeholder={t('placeholder-location')} />
-                          <select value={editingDelivery.status} onChange={(e) => setEditingDelivery({...editingDelivery, status: e.target.value})} className="tracking-input">
-                            <option value="Aguardando Coleta">{t('employee-status-waiting')}</option>
-                            <option value="Em Trânsito">{t('employee-status-transit')}</option>
-                            <option value="Entregue">{t('employee-status-delivered')}</option>
-                          </select>
-                          <input type="text" value={editingDelivery.estimatedDelivery} onChange={(e) => setEditingDelivery({...editingDelivery, estimatedDelivery: e.target.value})} className="tracking-input" placeholder={t('placeholder-forecast')} />
-                        </div>
-                        <div style={{ display: 'flex', gap: '0.5rem', marginTop: '1rem', flexWrap: 'wrap' }}>
-                          <button className="btn btn-primary" onClick={() => handleUpdateDelivery(delivery.id)}>💾 {t('employee-save')}</button>
-                          <button className="btn btn-secondary" onClick={() => setEditingDelivery(null)}>❌ {t('employee-cancel')}</button>
-                        </div>
-                      </div>
-                    ) : (
-                      <div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '1rem', flexWrap: 'wrap', gap: '0.5rem' }}>
-                          <div>
-                            <h4 style={{ color: 'var(--primary)', marginBottom: '0.5rem' }}>{delivery.customerName}</h4>
-                            <p style={{ fontSize: '0.9rem', color: '#666' }}>CPF/CNPJ: {delivery.document}</p>
-                          </div>
-                          <span style={{ padding: '0.3rem 1rem', borderRadius: '20px', fontSize: '0.9rem', fontWeight: 'bold', color: 'white', background: getStatusColor(delivery.status) }}>
-                            {translateStatus(delivery.status)}
-                          </span>
-                        </div>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '0.8rem', marginBottom: '1rem' }}>
-                          <p><strong>{t('employee-product')}:</strong> {delivery.product}</p>
-                          <p><strong>{t('employee-origin')}:</strong> {delivery.origin}</p>
-                          <p><strong>{t('employee-destination')}:</strong> {delivery.destination}</p>
-                          <p><strong>{t('employee-location')}:</strong> {delivery.currentLocation}</p>
-                          <p><strong>{t('employee-forecast')}:</strong> {delivery.estimatedDelivery}</p>
-                          <p style={{ fontSize: '0.85rem', color: '#666' }}><em>{t('employee-updated')}: {delivery.lastUpdate}</em></p>
-                        </div>
-                        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-                          <button className="btn btn-primary" style={{ padding: '0.5rem 1rem', fontSize: '0.9rem' }} onClick={() => setEditingDelivery(delivery)}>✏️ {t('employee-edit')}</button>
-                          <button className="btn" style={{ padding: '0.5rem 1rem', fontSize: '0.9rem', background: '#ef4444', color: 'white' }} onClick={() => handleDeleteDelivery(delivery.id)}>🗑️ {t('employee-delete')}</button>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
       <section 
         className="hero"
         style={{ 
@@ -1034,15 +506,6 @@ function App() {
       >
         <h1>{t('hero-title')}</h1>
         <p>{t('hero-subtitle')}</p>
-        <div className="cta-buttons">
-          {/* ✅ ATUALIZADO: Botão hero também rola para serviços */}
-          <button 
-            onClick={scrollToServices}
-            className="btn btn-secondary"
-          >
-            {t('btn-services')}
-          </button>
-        </div>
       </section>
 
       <section className="services" id="servicos">
@@ -1051,7 +514,6 @@ function App() {
           <p className="section-subtitle">{t('services-subtitle')}</p>
           
           <div className="services-grid">
-            {/* Card 1 — Transporte RodoFluvial */}
             <div className="service-card" style={{
               backgroundImage: `linear-gradient(rgba(0, 20, 60, 0.30), rgba(0, 70, 150, 0.30)), url(${image1})`,
               backgroundSize: 'cover',
@@ -1066,18 +528,12 @@ function App() {
                   <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service1-feature3')}</li>
                   <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service1-feature4')}</li>
                 </ul>
-                <a
-                  href={waLink('service1')}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="service-whatsapp-btn"
-                >
+                <a href={waLink('service1')} target="_blank" rel="noopener noreferrer" className="service-whatsapp-btn">
                   💬 {t('service-cta')}
                 </a>
               </div>
             </div>
 
-            {/* Card 2 — Distribuição de Cargas */}
             <div className="service-card" style={{
               backgroundImage: `linear-gradient(rgba(0, 20, 60, 0.30), rgba(0, 70, 150, 0.30)), url(${image4})`,
               backgroundSize: 'cover',
@@ -1092,18 +548,12 @@ function App() {
                   <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service2-feature3')}</li>
                   <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service2-feature4')}</li>
                 </ul>
-                <a
-                  href={waLink('service2')}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="service-whatsapp-btn"
-                >
+                <a href={waLink('service2')} target="_blank" rel="noopener noreferrer" className="service-whatsapp-btn">
                   💬 {t('service-cta')}
                 </a>
               </div>
             </div>
 
-            {/* Card 3 — Armazenagem & Logística */}
             <div className="service-card" style={{
               backgroundImage: `linear-gradient(rgba(0, 20, 60, 0.30), rgba(0, 70, 150, 0.30)), url(${image3})`,
               backgroundSize: 'cover',
@@ -1118,18 +568,12 @@ function App() {
                   <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service3-feature3')}</li>
                   <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service3-feature4')}</li>
                 </ul>
-                <a
-                  href={waLink('service3')}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="service-whatsapp-btn"
-                >
+                <a href={waLink('service3')} target="_blank" rel="noopener noreferrer" className="service-whatsapp-btn">
                   💬 {t('service-cta')}
                 </a>
               </div>
             </div>
 
-            {/* Card 4 — Exportação & Comércio Exterior */}
             <div className="service-card" style={{
               backgroundImage: `linear-gradient(rgba(0, 20, 60, 0.30), rgba(0, 70, 150, 0.30)), url(${backgroundImage})`,
               backgroundSize: 'cover',
@@ -1144,12 +588,7 @@ function App() {
                   <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service4-feature3')}</li>
                   <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>{t('service4-feature4')}</li>
                 </ul>
-                <a
-                  href={waLink('service4')}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="service-whatsapp-btn"
-                >
+                <a href={waLink('service4')} target="_blank" rel="noopener noreferrer" className="service-whatsapp-btn">
                   💬 {t('service-cta')}
                 </a>
               </div>
@@ -1179,34 +618,27 @@ function App() {
               </div>
 
               <div className="branches-grid">
-                {/* ✅ ATUALIZADO: Pacaraima / Santa Elena VNZ */}
                 <div className="location-card-enhanced branch-enhanced">
                   <h3>{t('location-boavista')}</h3>
                   <p className="state-badge">{t('location-roraima')}</p>
                   <p className="branch-specialty">{t('branch-specialty1')}</p>
                 </div>
-
-                {/* ✅ ATUALIZADO: Codor */}
                 <div className="location-card-enhanced branch-enhanced">
                   <h3>{t('location-saoluis')}</h3>
                   <p className="state-badge">{t('location-maranhao')}</p>
                   <p className="branch-specialty">{t('branch-specialty2')}</p>
                 </div>
-
-                {/* ✅ ATUALIZADO: Campo Novo */}
                 <div className="location-card-enhanced branch-enhanced">
                   <h3>{t('location-cuiaba')}</h3>
                   <p className="state-badge">{t('location-matogrosso')}</p>
                   <p className="branch-specialty">{t('branch-specialty3')}</p>
                 </div>
-
                 <div className="location-card-enhanced branch-enhanced">
                   <h3>{t('location-goiania')}</h3>
                   <p className="state-badge">{t('location-goias')}</p>
                   <p className="branch-specialty">{t('branch-specialty4')}</p>
                 </div>
               </div>
-
             </div>
             
             <div className="map-container-enhanced">
@@ -1300,7 +732,7 @@ function App() {
                 </a>
                 
                 <a 
-                  href="mailto:ventasjforganizacao@gmail.com" 
+                  href="mailto:export@jforganizacao.com.br" 
                   className="btn btn-secondary" 
                   style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', textDecoration: 'none', background: 'var(--secondary)', color: 'white' }}
                 >
@@ -1315,7 +747,7 @@ function App() {
                 </p>
                 <p style={{ color: '#666', fontSize: '0.95rem', lineHeight: '1.6' }}>
                   {t('commercial-label')}: +55 (92) 99209-1329<br />
-                  Email: ventasjforganizacao@gmail.com
+                  Email: export@jforganizacao.com.br
                 </p>
               </div>
             </div>
@@ -1324,7 +756,7 @@ function App() {
       </section>
 
       <footer style={{
-        backgroundImage: `linear-gradient(rgba(26, 26, 26, 0.95), rgba(26, 26, 26, 0.95)), url(${logoImage})`,
+        backgroundImage: `url(${logoImage})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat'
