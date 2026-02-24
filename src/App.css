@@ -22,8 +22,8 @@ body {
 
 /* Header & Navigation */
 header {
-    background: var(--white);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    background: #003366;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -42,7 +42,7 @@ nav {
 .logo {
     font-size: 1.35rem;
     font-weight: bold;
-    color: var(--primary);
+    color: var(--white);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -50,17 +50,15 @@ nav {
 }
 
 .logo-img {
-    width: 62px;
-    height: 62px;
+    width: 80px;
+    height: 80px;
     border-radius: 10px;
     object-fit: cover;
-    border: 2px solid var(--accent);
-    box-shadow: 0 2px 8px rgba(255, 107, 53, 0.25);
     flex-shrink: 0;
 }
 
 .logo span {
-    color: var(--primary);
+    color: var(--white);
 }
 
 .nav-links {
@@ -71,7 +69,7 @@ nav {
 
 .nav-links a {
     text-decoration: none;
-    color: var(--dark);
+    color: rgba(255, 255, 255, 0.85);
     font-weight: 500;
     transition: all 0.3s;
     cursor: pointer;
@@ -81,11 +79,11 @@ nav {
 
 .nav-links a:hover {
     color: var(--white);
-    background: var(--secondary);
+    background: rgba(255, 255, 255, 0.15);
 }
 
 .nav-links a.active {
-    color: var(--primary);
+    color: var(--white);
     background: transparent;
     font-weight: 700;
 }
@@ -135,7 +133,7 @@ nav {
 .menu-toggle span {
     width: 25px;
     height: 3px;
-    background: var(--primary);
+    background: var(--white);
     transition: all 0.3s;
 }
 
@@ -883,8 +881,8 @@ footer > * {
     }
 
     .logo-img {
-        width: 50px;
-        height: 50px;
+        width: 64px;
+        height: 64px;
     }
 
     .logo {
@@ -897,10 +895,10 @@ footer > * {
         top: 100%;
         left: 0;
         right: 0;
-        background: white;
+        background: #003366;
         flex-direction: column;
         padding: 1rem;
-        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        box-shadow: 0 5px 10px rgba(0,0,0,0.2);
         gap: 0.5rem;
         z-index: 999;
     }
@@ -1073,8 +1071,8 @@ footer > * {
     }
 
     .logo-img {
-        width: 44px;
-        height: 44px;
+        width: 56px;
+        height: 56px;
     }
 
     .logo {

@@ -159,7 +159,7 @@ function App() {
       <section
         className="hero"
         style={{
-          backgroundImage: `linear-gradient(rgba(0, 51, 102, 0.55), rgba(0, 102, 204, 0.55)), url(${image2})`,
+          backgroundImage: `url(${image2})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
