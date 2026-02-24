@@ -44,50 +44,7 @@ function App() {
   const [chatOpen, setChatOpen] = useState(false);
   const [chatResponse, setChatResponse] = useState(null);
   
-  // Estados para o sistema de rastreamento
-  const [showTracking, setShowTracking] = useState(false);
-  const [trackingDocument, setTrackingDocument] = useState('');
-  const [trackingResult, setTrackingResult] = useState(null);
-  
-  // Estados para gerenciamento de entregas
-  const [deliveries] = useState([
-    {
-      id: 1,
-      document: '12345678900',
-      customerName: 'João Silva',
-      product: 'Carga Geral - 500kg',
-      origin: 'Manaus/AM',
-      destination: 'São Paulo/SP',
-      status: 'Em Trânsito',
-      currentLocation: 'Goiânia/GO',
-      estimatedDelivery: '15/02/2026',
-      lastUpdate: '10/02/2026 14:30'
-    },
-    {
-      id: 2,
-      document: '98765432100',
-      customerName: 'Maria Santos',
-      product: 'Commodities - 2 toneladas',
-      origin: 'Manaus/AM',
-      destination: 'Boa Vista/RR',
-      status: 'Entregue',
-      currentLocation: 'Boa Vista/RR',
-      estimatedDelivery: '08/02/2026',
-      lastUpdate: '08/02/2026 16:45'
-    },
-    {
-      id: 3,
-      document: '12345678000190',
-      customerName: 'Empresa ABC Ltda',
-      product: 'Equipamentos - 1.5 toneladas',
-      origin: 'São Luís/MA',
-      destination: 'Cuiabá/MT',
-      status: 'Aguardando Coleta',
-      currentLocation: 'São Luís/MA',
-      estimatedDelivery: '18/02/2026',
-      lastUpdate: '10/02/2026 09:15'
-    }
-  ]);
+
 
   // Localização das filiais
   const locations = [
@@ -113,28 +70,11 @@ function App() {
     pt: {
       'nav-home': 'Início',
       'nav-services': 'Serviços',
-      'nav-tracking': 'Rastrear Entrega',
       'nav-coverage': 'Localidade',
       'nav-about': 'Sobre',
       'nav-contact': 'Contato',
       'hero-title': 'Transporte, Logística & Exportação',
       'hero-subtitle': 'Soluções Completas Em Transporte RodoFluvial, Armazenagem E Operações De Exportação Para Sua Empresa',
-      'btn-services': 'Nossos Serviços',
-      'tracking-title': 'Rastrear Minha Entrega',
-      'tracking-subtitle': 'Digite seu CPF ou CNPJ para acompanhar sua entrega',
-      'tracking-placeholder': 'Digite seu CPF ou CNPJ',
-      'tracking-button': 'Buscar Entrega',
-      'tracking-not-found': 'Nenhuma entrega encontrada para este documento.',
-      'employee-product': 'Produto',
-      'employee-origin': 'Origem',
-      'employee-destination': 'Destino',
-      'employee-location': 'Localização',
-      'employee-forecast': 'Previsão',
-      'employee-updated': 'Atualizado',
-      'employee-status': 'Status',
-      'employee-status-waiting': 'Aguardando Coleta',
-      'employee-status-transit': 'Em Trânsito',
-      'employee-status-delivered': 'Entregue',
       'services-title': 'Nossas Especialidades',
       'services-subtitle': 'Oferecemos soluções completas e integradas para atender todas as necessidades logísticas da sua empresa',
       'service-cta': 'Falar com especialista',
@@ -222,28 +162,11 @@ function App() {
     en: {
       'nav-home': 'Home',
       'nav-services': 'Services',
-      'nav-tracking': 'Track Delivery',
       'nav-coverage': 'Locations',
       'nav-about': 'About',
       'nav-contact': 'Contact',
       'hero-title': 'Transport, Logistics & Export',
       'hero-subtitle': 'Complete Solutions In River-Road Transport, Warehousing And Export Operations For Your Company',
-      'btn-services': 'Our Services',
-      'tracking-title': 'Track My Delivery',
-      'tracking-subtitle': 'Enter your CPF or CNPJ to track your delivery',
-      'tracking-placeholder': 'Enter your CPF or CNPJ',
-      'tracking-button': 'Search Delivery',
-      'tracking-not-found': 'No delivery found for this document.',
-      'employee-product': 'Product',
-      'employee-origin': 'Origin',
-      'employee-destination': 'Destination',
-      'employee-location': 'Location',
-      'employee-forecast': 'Forecast',
-      'employee-updated': 'Updated',
-      'employee-status': 'Status',
-      'employee-status-waiting': 'Awaiting Pickup',
-      'employee-status-transit': 'In Transit',
-      'employee-status-delivered': 'Delivered',
       'services-title': 'Our Specialties',
       'services-subtitle': 'We offer complete and integrated solutions to meet all your company\'s logistics needs',
       'service-cta': 'Talk to a specialist',
@@ -331,28 +254,11 @@ function App() {
     es: {
       'nav-home': 'Inicio',
       'nav-services': 'Servicios',
-      'nav-tracking': 'Rastrear Entrega',
       'nav-coverage': 'Localidades',
       'nav-about': 'Sobre',
       'nav-contact': 'Contacto',
       'hero-title': 'Transporte, Logística y Exportación',
       'hero-subtitle': 'Soluciones Completas En Transporte RodoFluvial, Almacenamiento Y Operaciones De Exportación Para Su Empresa',
-      'btn-services': 'Nuestros Servicios',
-      'tracking-title': 'Rastrear Mi Entrega',
-      'tracking-subtitle': 'Ingrese su CPF o CNPJ para rastrear su entrega',
-      'tracking-placeholder': 'Ingrese su CPF o CNPJ',
-      'tracking-button': 'Buscar Entrega',
-      'tracking-not-found': 'No se encontró ninguna entrega para este documento.',
-      'employee-product': 'Producto',
-      'employee-origin': 'Origen',
-      'employee-destination': 'Destino',
-      'employee-location': 'Ubicación',
-      'employee-forecast': 'Previsión',
-      'employee-updated': 'Actualizado',
-      'employee-status': 'Estado',
-      'employee-status-waiting': 'Esperando Recogida',
-      'employee-status-transit': 'En Tránsito',
-      'employee-status-delivered': 'Entregado',
       'services-title': 'Nuestras Especialidades',
       'services-subtitle': 'Ofrecemos soluciones completas e integradas para atender todas las necesidades logísticas de su empresa',
       'service-cta': 'Hablar con especialista',
@@ -440,22 +346,6 @@ function App() {
   };
 
   const t = (key) => translations[currentLang][key] || key;
-  
-  const translateStatus = (status) => {
-    const statusMap = {
-      'Aguardando Coleta': t('employee-status-waiting'),
-      'Em Trânsito': t('employee-status-transit'),
-      'Entregue': t('employee-status-delivered')
-    };
-    return statusMap[status] || status;
-  };
-
-  const handleTracking = (e) => {
-    e.preventDefault();
-    const cleanDocument = trackingDocument.replace(/\D/g, '');
-    const found = deliveries.find(d => d.document === cleanDocument);
-    setTrackingResult(found || 'not-found');
-  };
 
   const scrollToServices = () => {
     const section = document.getElementById('servicos');
@@ -556,15 +446,6 @@ function App() {
     setChatResponse(null);
   };
 
-  const getStatusColor = (status) => {
-    switch(status) {
-      case 'Entregue': return '#22c55e';
-      case 'Em Trânsito': return '#3b82f6';
-      case 'Aguardando Coleta': return '#f59e0b';
-      default: return '#6b7280';
-    }
-  };
-
   return (
     <div className="App">
       <header>
@@ -584,14 +465,6 @@ function App() {
             <li>
               <a onClick={scrollToServices}>
                 {t('nav-services')}
-              </a>
-            </li>
-            <li>
-              <a onClick={() => {
-                setShowTracking(true);
-                setMenuOpen(false);
-              }}>
-                {t('nav-tracking')}
               </a>
             </li>
             <li><a onClick={() => scrollToSection('abrangencia')}>{t('nav-coverage')}</a></li>
@@ -621,79 +494,6 @@ function App() {
         </nav>
       </header>
 
-      {/* Modal de Rastreamento */}
-      {showTracking && (
-        <div className="modal-overlay" onClick={() => {
-          setShowTracking(false);
-          setTrackingResult(null);
-          setTrackingDocument('');
-        }}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close" onClick={() => {
-              setShowTracking(false);
-              setTrackingResult(null);
-              setTrackingDocument('');
-            }}>×</button>
-            
-            <h2 style={{ color: 'var(--primary)', marginBottom: '1rem' }}>
-              {t('tracking-title')}
-            </h2>
-            <p style={{ color: '#666', marginBottom: '2rem' }}>
-              {t('tracking-subtitle')}
-            </p>
-
-            <form onSubmit={handleTracking} style={{ marginBottom: '2rem' }}>
-              <input
-                type="text"
-                value={trackingDocument}
-                onChange={(e) => setTrackingDocument(e.target.value)}
-                placeholder={t('tracking-placeholder')}
-                className="tracking-input"
-                required
-              />
-              <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '1rem' }}>
-                🔍 {t('tracking-button')}
-              </button>
-            </form>
-
-            {trackingResult === 'not-found' && (
-              <div className="alert alert-warning">
-                ⚠️ {t('tracking-not-found')}
-              </div>
-            )}
-
-            {trackingResult && trackingResult !== 'not-found' && (
-              <div className="tracking-result">
-                <div style={{ background: '#f8f9fa', padding: '1.5rem', borderRadius: '10px', marginBottom: '1rem' }}>
-                  <h3 style={{ color: 'var(--primary)', marginBottom: '1rem' }}>
-                    📦 {trackingResult.customerName}
-                  </h3>
-                  <div style={{ display: 'grid', gap: '0.8rem' }}>
-                    <p><strong>{t('employee-product')}:</strong> {trackingResult.product}</p>
-                    <p><strong>{t('employee-origin')}:</strong> {trackingResult.origin}</p>
-                    <p><strong>{t('employee-destination')}:</strong> {trackingResult.destination}</p>
-                    <p>
-                      <strong>{t('employee-status')}:</strong>{' '}
-                      <span style={{ 
-                        color: getStatusColor(trackingResult.status),
-                        fontWeight: 'bold'
-                      }}>
-                        {translateStatus(trackingResult.status)}
-                      </span>
-                    </p>
-                    <p><strong>{t('employee-location')}:</strong> {trackingResult.currentLocation}</p>
-                    <p><strong>{t('employee-forecast')}:</strong> {trackingResult.estimatedDelivery}</p>
-                    <p style={{ fontSize: '0.9rem', color: '#666' }}>
-                      <em>{t('employee-updated')}: {trackingResult.lastUpdate}</em>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
       <section 
         className="hero"
         style={{ 
@@ -706,14 +506,6 @@ function App() {
       >
         <h1>{t('hero-title')}</h1>
         <p>{t('hero-subtitle')}</p>
-        <div className="cta-buttons">
-          <button 
-            onClick={scrollToServices}
-            className="btn btn-secondary"
-          >
-            {t('btn-services')}
-          </button>
-        </div>
       </section>
 
       <section className="services" id="servicos">
@@ -940,7 +732,7 @@ function App() {
                 </a>
                 
                 <a 
-                  href="mailto:ventasjforganizacao@gmail.com" 
+                  href="mailto:export@jforganizacao.com.br" 
                   className="btn btn-secondary" 
                   style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', textDecoration: 'none', background: 'var(--secondary)', color: 'white' }}
                 >
@@ -955,7 +747,7 @@ function App() {
                 </p>
                 <p style={{ color: '#666', fontSize: '0.95rem', lineHeight: '1.6' }}>
                   {t('commercial-label')}: +55 (92) 99209-1329<br />
-                  Email: ventasjforganizacao@gmail.com
+                  Email: export@jforganizacao.com.br
                 </p>
               </div>
             </div>
@@ -964,7 +756,7 @@ function App() {
       </section>
 
       <footer style={{
-        backgroundImage: `linear-gradient(rgba(26, 26, 26, 0.95), rgba(26, 26, 26, 0.95)), url(${logoImage})`,
+        backgroundImage: `url(${logoImage})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat'

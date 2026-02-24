@@ -35,12 +35,10 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* ✅ Topo reduzido: de 0.7rem para 0.35rem */
     padding: 0.35rem 2rem;
     flex-wrap: wrap;
 }
 
-/* ✅ Logo maior, texto todo na mesma cor (var(--primary)) */
 .logo {
     font-size: 1.35rem;
     font-weight: bold;
@@ -51,7 +49,6 @@ nav {
     gap: 0.7rem;
 }
 
-/* ✅ Logo image aumentada: de 44px para 62px */
 .logo-img {
     width: 62px;
     height: 62px;
@@ -62,7 +59,6 @@ nav {
     flex-shrink: 0;
 }
 
-/* ✅ Sem span de cor diferente — toda a frase fica em var(--primary) */
 .logo span {
     color: var(--primary);
 }
@@ -94,36 +90,38 @@ nav {
     font-weight: 700;
 }
 
-/* ✅ Seletor de idiomas menor */
-.language-selector {
+/* Social Icons - Header */
+.social-icons {
     display: flex;
-    gap: 0.25rem;
     align-items: center;
-    background: var(--light);
-    padding: 0.2rem;
-    border-radius: 5px;
+    gap: 0.5rem;
 }
 
-.language-selector button {
-    padding: 0.25rem 0.55rem;
-    border: none;
-    background: transparent;
-    color: var(--dark);
-    font-weight: 500;
-    cursor: pointer;
-    border-radius: 3px;
-    transition: all 0.3s;
-    font-size: 0.78rem;
+.social-icon-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    opacity: 0.85;
+    border: 1.5px solid transparent;
 }
 
-.language-selector button:hover {
-    background: var(--secondary);
-    color: var(--white);
+.social-icon-link img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 6px;
 }
 
-.language-selector button.active {
-    background: var(--accent);
-    color: var(--white);
+.social-icon-link:hover {
+    opacity: 1;
+    transform: translateY(-3px);
+    border-color: var(--accent);
+    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
 }
 
 /* Mobile Menu Toggle */
@@ -418,7 +416,7 @@ nav {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: 
+    background-image:
         radial-gradient(circle at 20% 50%, rgba(0, 102, 204, 0.05) 0%, transparent 50%),
         radial-gradient(circle at 80% 80%, rgba(0, 150, 199, 0.05) 0%, transparent 50%);
     pointer-events: none;
@@ -758,6 +756,41 @@ footer > * {
     color: var(--accent);
 }
 
+/* Social Icons - Footer */
+.footer-social-icons {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+}
+
+.footer-social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    opacity: 0.85;
+    border: 1.5px solid rgba(255, 255, 255, 0.2);
+}
+
+.footer-social-link img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.footer-social-link:hover {
+    opacity: 1;
+    transform: translateY(-4px);
+    border-color: var(--accent);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
 .footer-bottom {
     text-align: center;
     padding-top: 2rem;
@@ -832,7 +865,7 @@ footer > * {
         gap: 3rem;
         align-items: stretch;
     }
-    
+
     .branches-grid {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -900,16 +933,16 @@ footer > * {
     .coverage-section {
         padding: 3rem 0;
     }
-    
+
     .coverage-content {
         gap: 2rem;
         padding: 0 1rem;
     }
-    
+
     .location-card-enhanced.matriz-enhanced {
         padding: 2rem;
     }
-    
+
     .location-details .city-name {
         font-size: 1.6rem;
     }
@@ -947,18 +980,14 @@ footer > * {
         font-size: 16px;
     }
 
-    .tracking-result {
-        font-size: 0.95rem;
-    }
-
-    .tracking-result p {
-        margin-bottom: 0.5rem;
-        line-height: 1.5;
-    }
-
     .service-whatsapp-btn {
         font-size: 0.9rem;
         padding: 0.8rem 1.2rem;
+    }
+
+    .social-icon-link {
+        width: 30px;
+        height: 30px;
     }
 }
 
@@ -1038,15 +1067,9 @@ footer > * {
         font-size: 1rem;
     }
 
-    .language-selector {
-        order: 3;
-        width: 100%;
-        margin-top: 0.5rem;
-        justify-content: center;
-    }
-
-    .language-selector button {
-        flex: 1;
+    /* Esconde ícones sociais no header em telas muito pequenas */
+    .social-icons {
+        display: none;
     }
 
     .logo-img {
