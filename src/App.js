@@ -15,29 +15,28 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
-const CORS_PROXY = 'https://api.allorigins.win/raw?url=';
+// rss2json.com converte RSS em JSON — sem CORS, funciona em produção e local
+const RSS2JSON = 'https://api.rss2json.com/v1/api.json?rss_url=';
 
 const RSS_FEEDS = [
-  { url: 'https://www.cnt.org.br/rss/noticias',                                  label: '🚛 Transporte',        cor: '#003366' },
-  { url: 'https://www.canalrural.com.br/feed/',                                  label: '🌾 Agro & Exportação', cor: '#2e7d32' },
-  { url: 'https://www.comexdobrasil.com/rss/',                                   label: '📦 Comércio Exterior', cor: '#1565c0' },
-  { url: 'https://g1.globo.com/rss/g1/amazonas/',                                label: '🛣️ BR-319 & AM',       cor: '#bf6900' },
-  { url: 'https://portal.inmet.gov.br/feed',                                     label: '🌊 Clima & Rios',      cor: '#0277bd' },
-  { url: 'https://www.gov.br/receitafederal/pt-br/assuntos/noticias/rss',        label: '🛃 Fronteiras',        cor: '#6a1b9a' },
+  { url: 'https://www.cnt.org.br/rss/noticias',                           label: '🚛 Transporte',        cor: '#003366' },
+  { url: 'https://www.canalrural.com.br/feed/',                           label: '🌾 Agro & Exportação', cor: '#2e7d32' },
+  { url: 'https://www.comexdobrasil.com/rss/',                            label: '📦 Comércio Exterior', cor: '#1565c0' },
+  { url: 'https://g1.globo.com/rss/g1/amazonas/',                         label: '🛣️ BR-319 & AM',       cor: '#bf6900' },
+  { url: 'https://portal.inmet.gov.br/feed',                              label: '🌊 Clima & Rios',      cor: '#0277bd' },
+  { url: 'https://www.gov.br/receitafederal/pt-br/assuntos/noticias/rss', label: '🛃 Fronteiras',        cor: '#6a1b9a' },
 ];
 
-async function parseRSS(url) {
-  const resp = await fetch(CORS_PROXY + encodeURIComponent(url));
-  const text = await resp.text();
-  const xml  = new window.DOMParser().parseFromString(text, 'text/xml');
-  const items = xml.querySelectorAll('item, entry');
-  return Array.from(items).slice(0, 5).map(item => {
-    const get  = sel => item.querySelector(sel)?.textContent?.trim() || '';
-    return {
-      titulo: get('title'),
-      link:   item.querySelector('link')?.getAttribute('href') || get('link') || '#',
-    };
+async function parseRSS(feedUrl) {
+  const resp = await fetch(RSS2JSON + encodeURIComponent(feedUrl), {
+    signal: AbortSignal.timeout(10000),
   });
+  const data = await resp.json();
+  if (!data.items || data.status === 'error') return [];
+  return data.items.slice(0, 5).map(item => ({
+    titulo: item.title  || '',
+    link:   item.link   || '#',
+  })).filter(item => item.titulo);
 }
 
 // Fix para os ícones do Leaflet no React
