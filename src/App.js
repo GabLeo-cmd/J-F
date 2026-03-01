@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
 import backgroundImage from './assets/background.jpeg';
 import image1 from './assets/1.jpeg';
 import image2 from './assets/2.jpeg';
 import image3 from './assets/3.jpeg';
 import image4 from './assets/4.jpeg';
+import image5 from './assets/5.jpeg';
 import logoImage from './assets/logo.jpeg';
 import linkedinIcon from './assets/linkedin.webp';
 import instagramIcon from './assets/instagram.webp';
@@ -13,6 +14,31 @@ import whatsappIcon from './assets/whatsapp.webp';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+
+const CORS_PROXY = 'https://api.allorigins.win/raw?url=';
+
+const RSS_FEEDS = [
+  { url: 'https://www.cnt.org.br/rss/noticias',                                  label: '🚛 Transporte',        cor: '#003366' },
+  { url: 'https://www.canalrural.com.br/feed/',                                  label: '🌾 Agro & Exportação', cor: '#2e7d32' },
+  { url: 'https://www.comexdobrasil.com/rss/',                                   label: '📦 Comércio Exterior', cor: '#1565c0' },
+  { url: 'https://g1.globo.com/rss/g1/amazonas/',                                label: '🛣️ BR-319 & AM',       cor: '#bf6900' },
+  { url: 'https://portal.inmet.gov.br/feed',                                     label: '🌊 Clima & Rios',      cor: '#0277bd' },
+  { url: 'https://www.gov.br/receitafederal/pt-br/assuntos/noticias/rss',        label: '🛃 Fronteiras',        cor: '#6a1b9a' },
+];
+
+async function parseRSS(url) {
+  const resp = await fetch(CORS_PROXY + encodeURIComponent(url));
+  const text = await resp.text();
+  const xml  = new window.DOMParser().parseFromString(text, 'text/xml');
+  const items = xml.querySelectorAll('item, entry');
+  return Array.from(items).slice(0, 5).map(item => {
+    const get  = sel => item.querySelector(sel)?.textContent?.trim() || '';
+    return {
+      titulo: get('title'),
+      link:   item.querySelector('link')?.getAttribute('href') || get('link') || '#',
+    };
+  });
+}
 
 // Fix para os ícones do Leaflet no React
 delete L.Icon.Default.prototype._getIconUrl;
@@ -47,6 +73,39 @@ function App() {
   const [chatOpen, setChatOpen] = useState(false);
   const [chatResponse, setChatResponse] = useState(null);
 
+  // ── Carrossel de notícias ──
+  const [noticias, setNoticias]       = useState([]);
+  const [carrosselIdx, setCarrosselIdx] = useState(0);
+  const carrosselRef = useRef(null);
+
+  useEffect(() => {
+    async function carregarNoticias() {
+      let todas = [];
+      for (const feed of RSS_FEEDS) {
+        try {
+          const itens = await parseRSS(feed.url);
+          itens.forEach(item => todas.push({ ...item, label: feed.label, cor: feed.cor }));
+        } catch (e) {
+          console.warn('Erro no feed:', feed.url);
+        }
+      }
+      // embaralha para misturar as fontes
+      todas.sort(() => Math.random() - 0.5);
+      setNoticias(todas);
+    }
+    carregarNoticias();
+    const reload = setInterval(carregarNoticias, 15 * 60 * 1000);
+    return () => clearInterval(reload);
+  }, []);
+
+  useEffect(() => {
+    if (noticias.length === 0) return;
+    const timer = setInterval(() => {
+      setCarrosselIdx(idx => (idx + 1) % noticias.length);
+    }, 7000);
+    return () => clearInterval(timer);
+  }, [noticias]);
+
   // Localização das filiais
   const locations = [
     { name: 'Matriz - Manaus', coords: [-3.1190, -60.0217], type: 'matriz', state: 'Amazonas' },
@@ -62,6 +121,7 @@ function App() {
     service2: { number: '559291910173',  msg: 'Olá! Tenho interesse no serviço de *Distribuição de Cargas* da JF Organização Trading. Podem me passar mais informações?' },
     service3: { number: '559294667456',  msg: 'Olá! Tenho interesse no serviço de *Armazenagem & Logística* da JF Organização Trading. Podem me passar mais informações?' },
     service4: { number: '5592992091329', msg: 'Olá! Tenho interesse no serviço de *Exportação & Comércio Exterior* da JF Organização Trading. Podem me passar mais informações?' },
+    service5: { number: '5592992091329', msg: 'Olá! Tenho interesse no serviço de *Transporte Internacional* da JF Organização Trading. Podem me passar mais informações?' },
   };
 
   const waLink = (service) =>
@@ -170,6 +230,38 @@ function App() {
         <p>Soluções Completas Em Transporte RodoFluvial, Armazenagem E Operações De Exportação Para Sua Empresa</p>
       </section>
 
+      {/* ── Banner de Notícias ── */}
+      {noticias.length > 0 && (
+        <div className="noticias-banner">
+          <span className="noticias-banner-tag">📰 Notícias</span>
+          <div className="noticias-banner-track" ref={carrosselRef}>
+            <a
+              href={noticias[carrosselIdx].link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="noticias-banner-item"
+              key={carrosselIdx}
+            >
+              <span className="noticias-banner-badge" style={{ background: noticias[carrosselIdx].cor }}>
+                {noticias[carrosselIdx].label}
+              </span>
+              <span className="noticias-banner-titulo">{noticias[carrosselIdx].titulo}</span>
+              <span className="noticias-banner-seta">→</span>
+            </a>
+          </div>
+          <div className="noticias-banner-dots">
+            {noticias.map((_, i) => (
+              <button
+                key={i}
+                className={`noticias-dot ${i === carrosselIdx ? 'ativo' : ''}`}
+                onClick={() => setCarrosselIdx(i)}
+                aria-label={`Notícia ${i + 1}`}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
       <section className="services" id="servicos">
         <div className="container">
           <h2 className="section-title">Nossas Especialidades</h2>
@@ -189,6 +281,7 @@ function App() {
                   <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>Rotas otimizadas pela Amazônia</li>
                   <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>Rastreamento em tempo real</li>
                   <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>Capacidade para grandes volumes</li>
+                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>Logística multimodal</li>
                 </ul>
                 <a href={waLink('service1')} target="_blank" rel="noopener noreferrer" className="service-whatsapp-btn">
                   💬 Falar com especialista
@@ -205,10 +298,11 @@ function App() {
                 <h3 style={{ color: 'white' }}>Distribuição de Cargas</h3>
                 <p style={{ color: 'rgba(255, 255, 255, 0.95)' }}>Gerenciamento completo da distribuição de suas mercadorias com eficiência, segurança e pontualidade em todo território nacional.</p>
                 <ul className="service-features">
-                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>Gestão de última milha</li>
+                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>Cargas seguradas</li>
                   <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>Frota moderna e diversificada</li>
+                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>Pessoal habilitado</li>
                   <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>Entrega pontual garantida</li>
-                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>Seguro completo de cargas</li>
+                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>Logística multimodal</li>
                 </ul>
                 <a href={waLink('service2')} target="_blank" rel="noopener noreferrer" className="service-whatsapp-btn">
                   💬 Falar com especialista
@@ -223,12 +317,13 @@ function App() {
             }}>
               <div className="service-card-content">
                 <h3 style={{ color: 'white' }}>Armazenagem & Logística</h3>
-                <p style={{ color: 'rgba(255, 255, 255, 0.95)' }}>Centros de distribuição estratégicos com tecnologia de ponta, controle de temperatura e segurança 24 horas para seus produtos.</p>
+                <p style={{ color: 'rgba(255, 255, 255, 0.95)' }}>Centros de distribuição estratégicos com tecnologia de ponta e segurança 24 horas para seus produtos.</p>
                 <ul className="service-features">
-                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>Armazéns climatizados</li>
-                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>Sistema WMS integrado</li>
-                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>Segurança e monitoramento 24/7</li>
-                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>Gestão inteligente de estoque</li>
+                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>Operação Multiflexível</li>
+                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>Gestão de estoque</li>
+                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>Segurança e monitoramento integrado</li>
+                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>Serviço Crossdocking</li>
+                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>Logística multimodal</li>
                 </ul>
                 <a href={waLink('service3')} target="_blank" rel="noopener noreferrer" className="service-whatsapp-btn">
                   💬 Falar com especialista
@@ -245,12 +340,34 @@ function App() {
                 <h3 style={{ color: 'white' }}>Exportação & Comércio Exterior</h3>
                 <p style={{ color: 'rgba(255, 255, 255, 0.95)' }}>Assessoria completa em comércio internacional, cuidando de toda documentação e processos para levar seus produtos ao mundo.</p>
                 <ul className="service-features">
-                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>Despachante aduaneiro próprio</li>
+                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>Despachante aduaneiro eficiente</li>
                   <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>Gestão de documentação completa</li>
-                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>Parceiros em 50+ países</li>
+                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>Parceiros em diversos países</li>
                   <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>Consultoria em comércio exterior</li>
+                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>Logística multimodal</li>
                 </ul>
                 <a href={waLink('service4')} target="_blank" rel="noopener noreferrer" className="service-whatsapp-btn">
+                  💬 Falar com especialista
+                </a>
+              </div>
+            </div>
+
+            <div className="service-card" style={{
+              backgroundImage: `linear-gradient(rgba(0, 20, 60, 0.30), rgba(0, 70, 150, 0.30)), url(${image5})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }}>
+              <div className="service-card-content">
+                <h3 style={{ color: 'white' }}>Transporte Internacional</h3>
+                <p style={{ color: 'rgba(255, 255, 255, 0.95)' }}>Oferecemos uma solução completa de frete internacional: coleta, despacho de exportação, transporte marítimo e rodoviário, além de seguro integrado. Você foca no seu negócio, nós cuidamos de toda a logística e das formalidades legais.</p>
+                <ul className="service-features">
+                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>Brasil → Venezuela</li>
+                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>Brasil → Guiana</li>
+                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>Venezuela → Brasil</li>
+                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>Guiana → Brasil</li>
+                  <li style={{ color: 'rgba(255, 255, 255, 0.95)' }}>Logística multimodal</li>
+                </ul>
+                <a href={waLink('service5')} target="_blank" rel="noopener noreferrer" className="service-whatsapp-btn">
                   💬 Falar com especialista
                 </a>
               </div>
@@ -283,7 +400,7 @@ function App() {
                 <div className="location-card-enhanced branch-enhanced">
                   <h3>Pacaraima</h3>
                   <p className="state-badge">Roraima</p>
-                  <p className="branch-specialty">Fronteira internacional — Santa Elena VNZ</p>
+                  <p className="branch-specialty">Fronteira Internacional Brasil - Venezuela</p>
                 </div>
                 <div className="location-card-enhanced branch-enhanced">
                   <h3>Codó</h3>
