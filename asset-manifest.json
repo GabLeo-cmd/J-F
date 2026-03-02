@@ -1,11 +1,11 @@
 {
   "files": {
-    "main.css": "/J-F/static/css/main.adbfdf12.css",
-    "main.js": "/J-F/static/js/main.81729aa1.js",
-    "static/media/logo.jpeg": "/J-F/static/media/logo.01ab5b83552fe523c32f.jpeg",
+    "main.css": "/J-F/static/css/main.e5baa79a.css",
+    "main.js": "/J-F/static/js/main.e50422b1.js",
+    "static/media/logo.jpeg": "/J-F/static/media/logo.ad9f2d0d01a721f89441.jpeg",
     "static/media/background.jpeg": "/J-F/static/media/background.1ade0f93cbdc518ab8d6.jpeg",
     "static/media/4.jpeg": "/J-F/static/media/4.2c208b7f37213b6559ff.jpeg",
-    "static/media/2.jpeg": "/J-F/static/media/2.4cee2f710adb703dade9.jpeg",
+    "static/media/2.jpeg": "/J-F/static/media/2.8d15094f407814d1dbda.jpeg",
     "static/media/1.jpeg": "/J-F/static/media/1.90e39d1b866a50c7402e.jpeg",
     "static/media/3.jpeg": "/J-F/static/media/3.8ddc7460c333f753abf4.jpeg",
     "static/media/5.jpeg": "/J-F/static/media/5.e63c949be426e5305031.jpeg",
@@ -14,11 +14,11 @@
     "static/media/linkedin.webp": "/J-F/static/media/linkedin.f8f4c02ed0806b85d24b.webp",
     "static/media/facebook.webp": "/J-F/static/media/facebook.c2484a8ac9e1eab02c5d.webp",
     "index.html": "/J-F/index.html",
-    "main.adbfdf12.css.map": "/J-F/static/css/main.adbfdf12.css.map",
-    "main.81729aa1.js.map": "/J-F/static/js/main.81729aa1.js.map"
+    "main.e5baa79a.css.map": "/J-F/static/css/main.e5baa79a.css.map",
+    "main.e50422b1.js.map": "/J-F/static/js/main.e50422b1.js.map"
   },
   "entrypoints": [
-    "static/css/main.adbfdf12.css",
-    "static/js/main.81729aa1.js"
+    "static/css/main.e5baa79a.css",
+    "static/js/main.e50422b1.js"
   ]
 }
