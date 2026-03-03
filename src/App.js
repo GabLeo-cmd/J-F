@@ -199,11 +199,11 @@ function App() {
   ];
 
   const serviceWhatsApp = {
-    service1: { number: '5592992091329', msg: 'Olá! Tenho interesse no serviço de *Transporte RodoFluvial* da JF Organização Trading. Podem me passar mais informações?' },
-    service2: { number: '559291910173',  msg: 'Olá! Tenho interesse no serviço de *Distribuição de Cargas* da JF Organização Trading. Podem me passar mais informações?' },
-    service3: { number: '559294667456',  msg: 'Olá! Tenho interesse no serviço de *Armazenagem & Logística* da JF Organização Trading. Podem me passar mais informações?' },
-    service4: { number: '5592992091329', msg: 'Olá! Tenho interesse no serviço de *Exportação & Comércio Exterior* da JF Organização Trading. Podem me passar mais informações?' },
-    service5: { number: '5592992091329', msg: 'Olá! Tenho interesse no serviço de *Transporte Internacional* da JF Organização Trading. Podem me passar mais informações?' },
+    service1: { number: '5592994667456', msg: 'Olá! Tenho interesse no serviço de *Transporte RodoFluvial* da JF Organização Trading. Podem me passar mais informações?' },
+    service2: { number: '5592991910173', msg: 'Olá! Tenho interesse no serviço de *Distribuição de Cargas* da JF Organização Trading. Podem me passar mais informações?' },
+    service3: { number: '5592994667456', msg: 'Olá! Tenho interesse no serviço de *Armazenagem & Logística* da JF Organização Trading. Podem me passar mais informações?' },
+    service4: { number: '5592981848020', msg: 'Olá! Tenho interesse no serviço de *Exportação & Comércio Exterior* da JF Organização Trading. Podem me passar mais informações?' },
+    service5: { number: '5592981848020', msg: 'Olá! Tenho interesse no serviço de *Transporte Internacional* da JF Organização Trading. Podem me passar mais informações?' },
   };
 
   const waLink = (service) =>
