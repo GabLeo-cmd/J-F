@@ -114,9 +114,8 @@ function CotacoesBanner() {
   if (loading) return <div className="cotacoes-banner"><span className="cotacoes-loading">💱 Carregando cotações...</span></div>;
   if (cotacoes.length === 0) return null;
 
-  // Duplica os itens para o marquee infinito funcionar sem pausa
   const itensMarquee = [...cotacoes, ...cotacoes];
-  const duracaoSeg = cotacoes.length * 2.5; // ~2.5s por item
+  const duracaoSeg = cotacoes.length * 2.5;
 
   return (
     <div className="cotacoes-banner">
@@ -242,7 +241,6 @@ function App() {
     <div className="App">
       <header>
         <nav>
-          {/* Logo colada ao canto esquerdo sem padding */}
           <div className="logo" onClick={scrollToTop}>
             <img src={logoImage} alt="JF Organização Trading" className="logo-img" />
             JF Organização Trading
@@ -251,11 +249,11 @@ function App() {
             <span></span><span></span><span></span>
           </div>
           <ul className={`nav-links ${menuOpen ? 'active' : ''}`}>
-            <li><a onClick={scrollToTop} className="active">Início</a></li>
-            <li><a onClick={scrollToServices}>Serviços</a></li>
-            <li><a onClick={() => scrollToSection('abrangencia')}>Onde estamos</a></li>
-            <li><a onClick={() => scrollToSection('sobre')}>Sobre</a></li>
-            <li><a onClick={() => scrollToSection('contato')}>Contato</a></li>
+            <li><button onClick={scrollToTop} className="active" style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, font: 'inherit', color: 'white' }}>Início</button></li>
+            <li><button onClick={scrollToServices} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, font: 'inherit', color: 'white' }}>Serviços</button></li>
+            <li><button onClick={() => scrollToSection('abrangencia')} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, font: 'inherit', color: 'white' }}>Onde estamos</button></li>
+            <li><button onClick={() => scrollToSection('sobre')} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, font: 'inherit', color: 'white' }}>Sobre</button></li>
+            <li><button onClick={() => scrollToSection('contato')} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, font: 'inherit', color: 'white' }}>Contato</button></li>
           </ul>
           <div className="social-icons">
             <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer" className="social-icon-link" title="LinkedIn">
@@ -550,9 +548,9 @@ function App() {
           <div className="footer-section">
             <h3>Empresa</h3>
             <ul>
-              <li><a onClick={() => scrollToSection('sobre')}>Sobre Nós</a></li>
-              <li><a onClick={() => scrollToSection('contato')}>Contato</a></li>
-              <li><a>Trabalhe Conosco</a></li>
+              <li><button onClick={() => scrollToSection('sobre')} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, font: 'inherit', color: 'white', textAlign: 'left' }}>Sobre Nós</button></li>
+              <li><button onClick={() => scrollToSection('contato')} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, font: 'inherit', color: 'white', textAlign: 'left' }}>Contato</button></li>
+              <li><button onClick={() => scrollToSection('contato')} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0, font: 'inherit', color: 'white', textAlign: 'left' }}>Trabalhe Conosco</button></li>
             </ul>
           </div>
           <div className="footer-section">
